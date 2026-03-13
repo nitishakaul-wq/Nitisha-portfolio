@@ -8,7 +8,7 @@
 
 <title>BrightSmile Dental Clinic | Demo Website</title>
 
-<meta name="description" content="Demo dental clinic website design showcasing a modern professional website for dental practices.">
+<meta name="description" content="Demo dental clinic website showing a modern website design for dental practices.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
 body{
 font-family:'Poppins',sans-serif;
 margin:0;
-background:#f7f9fc;
+background:#f4f7fb;
 color:#1e293b;
 line-height:1.6;
 }
@@ -30,7 +30,7 @@ line-height:1.6;
 body::after{
 content:"DEMO WEBSITE";
 position:fixed;
-top:40%;
+top:45%;
 left:10%;
 font-size:80px;
 color:rgba(0,0,0,0.05);
@@ -63,20 +63,21 @@ justify-content:space-between;
 align-items:center;
 padding:18px 40px;
 background:white;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
+box-shadow:0 3px 12px rgba(0,0,0,0.06);
 }
 
 nav a{
 text-decoration:none;
 color:#334155;
 margin-left:18px;
+font-size:15px;
 }
 
 /* HERO */
 
 .hero{
 height:420px;
-background-image:url("https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=1600&q=60");
+background-image:url("https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=1600&q=80");
 background-size:cover;
 background-position:center;
 display:flex;
@@ -100,21 +101,26 @@ z-index:2;
 }
 
 .hero h1{
-font-size:44px;
+font-size:42px;
 margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
 }
 
 .btn{
 background:#2563eb;
 color:white;
-padding:12px 26px;
-border-radius:6px;
+padding:13px 28px;
+border-radius:8px;
 text-decoration:none;
 display:inline-block;
 margin-top:16px;
+font-weight:600;
 }
 
-/* SECTIONS */
+/* SECTION */
 
 section{
 max-width:1100px;
@@ -124,7 +130,7 @@ padding:70px 20px;
 
 h2{
 text-align:center;
-margin-bottom:35px;
+margin-bottom:40px;
 }
 
 /* SERVICES */
@@ -137,19 +143,31 @@ gap:24px;
 
 .card{
 background:white;
-border-radius:10px;
+border-radius:12px;
 overflow:hidden;
-box-shadow:0 4px 14px rgba(0,0,0,0.06);
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+transition:transform 0.2s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .card img{
 width:100%;
-height:180px;
+height:200px;
 object-fit:cover;
+display:block;
 }
 
 .card-content{
-padding:18px;
+padding:20px;
+}
+
+.card strong{
+font-size:18px;
+display:block;
+margin-bottom:6px;
 }
 
 /* DOCTOR */
@@ -163,7 +181,7 @@ align-items:center;
 
 .doctor img{
 width:100%;
-border-radius:10px;
+border-radius:12px;
 }
 
 .badges{
@@ -185,15 +203,26 @@ font-size:13px;
 
 .reviews{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:20px;
 }
 
 .review{
 background:white;
-padding:18px;
-border-radius:8px;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* HOURS */
+
+.hours{
+background:white;
+padding:26px;
+border-radius:10px;
 box-shadow:0 3px 10px rgba(0,0,0,0.05);
+max-width:500px;
+margin:auto;
 }
 
 /* CONTACT */
@@ -206,30 +235,19 @@ gap:12px;
 }
 
 input,textarea{
-padding:10px;
+padding:11px;
 border-radius:6px;
 border:1px solid #cbd5f5;
 }
 
 button{
-padding:12px;
+padding:13px;
 border:none;
 background:#2563eb;
 color:white;
 border-radius:6px;
 font-weight:600;
 cursor:pointer;
-}
-
-/* HOURS */
-
-.hours{
-background:white;
-padding:24px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,0.05);
-max-width:500px;
-margin:auto;
 }
 
 /* FOOTER */
@@ -299,7 +317,9 @@ font-size:50px;
 
 <div class="card">
 
-<img src="https://images.unsplash.com/photo-1609840112855-9e30d5c6c4e1?auto=format&fit=crop&w=900&q=60" alt="Dental cleaning tools">
+<img loading="lazy"
+src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=900&q=80"
+alt="Dental cleaning procedure">
 
 <div class="card-content">
 
@@ -313,7 +333,9 @@ font-size:50px;
 
 <div class="card">
 
-<img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=60" alt="Cosmetic dental procedure">
+<img loading="lazy"
+src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=80"
+alt="Cosmetic dental procedure">
 
 <div class="card-content">
 
@@ -327,7 +349,9 @@ font-size:50px;
 
 <div class="card">
 
-<img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=900&q=60" alt="Dental implant treatment">
+<img loading="lazy"
+src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=80"
+alt="Dental clinic treatment room">
 
 <div class="card-content">
 
@@ -349,13 +373,13 @@ font-size:50px;
 
 <div class="doctor">
 
-<img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=60" alt="Dentist portrait">
+<img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80">
 
 <div>
 
 <h3>Dr Sarah Mitchell</h3>
 
-<p>Experienced family dentist providing gentle and modern dental treatments.</p>
+<p>Experienced family dentist providing modern and comfortable dental treatments.</p>
 
 <div class="badges">
 
@@ -378,7 +402,7 @@ font-size:50px;
 <div class="reviews">
 
 <div class="review">
-<p>Friendly staff and great service. Highly recommend this clinic!</p>
+<p>Friendly staff and amazing service. Highly recommend!</p>
 <strong>— Emily R.</strong>
 </div>
 
@@ -414,7 +438,7 @@ font-size:50px;
 
 <h2>Book an Appointment</h2>
 
-<form onsubmit="alert('This is a demo form and does not submit data.'); return false;">
+<form onsubmit="alert('Demo form — does not submit data'); return false;">
 
 <input placeholder="Your Name">
 
