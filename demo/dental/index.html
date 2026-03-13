@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>BrightSmile Dental Clinic | Family Friendly Dentist</title>
+
+<meta name="description" content="BrightSmile Dental Clinic provides professional dental care including cleaning, implants, cosmetic dentistry and child friendly dental care.">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Poppins',sans-serif;
+margin:0;
+background:#f8fafc;
+color:#1e293b;
+}
+
+.hero{
+position:relative;
+height:420px;
+background-image:url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe');
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+}
+
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.45);
+}
+
+.hero-content{
+position:relative;
+z-index:2;
+}
+
+.hero h1{
+font-size:42px;
+margin:0;
+}
+
+.hero p{
+margin-top:10px;
+opacity:.9;
+}
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:14px 28px;
+background:#2563eb;
+color:white;
+text-decoration:none;
+border-radius:8px;
+font-weight:600;
+}
+
+section{
+max-width:1100px;
+margin:auto;
+padding:70px 20px;
+}
+
+h2{
+text-align:center;
+margin-bottom:40px;
+}
+
+.services{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card-content{
+padding:18px;
+}
+
+.doctor{
+display:grid;
+grid-template-columns:300px 1fr;
+gap:40px;
+align-items:center;
+}
+
+.doctor img{
+width:100%;
+border-radius:12px;
+}
+
+.badges{
+margin-top:15px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.badge{
+background:#e0f2fe;
+color:#0369a1;
+padding:6px 12px;
+border-radius:6px;
+font-size:14px;
+}
+
+.reviews{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.review{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+.review strong{
+display:block;
+margin-top:10px;
+}
+
+.family{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:30px;
+align-items:center;
+}
+
+.family img{
+width:100%;
+border-radius:12px;
+}
+
+form{
+display:grid;
+gap:12px;
+max-width:450px;
+margin:auto;
+}
+
+input,textarea{
+padding:12px;
+border-radius:8px;
+border:1px solid #cbd5f5;
+}
+
+button{
+padding:14px;
+border:none;
+background:#2563eb;
+color:white;
+border-radius:8px;
+font-weight:600;
+cursor:pointer;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#f1f5f9;
+}
+
+@media(max-width:800px){
+
+.doctor{
+grid-template-columns:1fr;
+}
+
+.family{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<div class="hero-content">
+
+<h1>BrightSmile Dental Clinic</h1>
+
+<p>Modern Family Friendly Dental Care</p>
+
+<a class="btn" href="#contact">Book Appointment</a>
+
+</div>
+
+</div>
+
+
+<section>
+
+<h2>Our Dental Services</h2>
+
+<div class="services">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1606813902914-9f9c0e2c1c43" alt="Dentist cleaning teeth">
+<div class="card-content">
+<strong>Teeth Cleaning</strong>
+<p>Professional cleaning for healthy teeth and gums.</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce" alt="Cosmetic dental procedure">
+<div class="card-content">
+<strong>Cosmetic Dentistry</strong>
+<p>Smile design, whitening and aesthetic dentistry.</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1609840112855-9e30d5c6c4e1" alt="Dental implant tools">
+<div class="card-content">
+<strong>Dental Implants</strong>
+<p>Permanent solution for missing teeth.</p>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1598257006626-48b0c252070d" alt="Child dentist patient">
+<div class="card-content">
+<strong>Child Dentistry</strong>
+<p>Gentle dental care for children.</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Meet Our Dentist</h2>
+
+<div class="doctor">
+
+<img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" alt="Dentist portrait">
+
+<div>
+
+<h3>Dr. Sarah Mitchell</h3>
+
+<p>
+Dr. Mitchell has over 12 years of experience in cosmetic and family dentistry.
+She focuses on patient comfort and preventive care.
+</p>
+
+<div class="badges">
+
+<div class="badge">DDS</div>
+
+<div class="badge">Certified Implant Specialist</div>
+
+<div class="badge">American Dental Association</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2>What Our Patients Say</h2>
+
+<div class="reviews">
+
+<div class="review">
+<p>
+"The clinic is extremely clean and the dentist was very gentle. Best dental experience I've had."
+</p>
+<strong>— Emily R.</strong>
+</div>
+
+<div class="review">
+<p>
+"My kids were very comfortable during their visit. Highly recommend this clinic."
+</p>
+<strong>— Daniel K.</strong>
+</div>
+
+<div class="review">
+<p>
+"I got my dental implants here and the results were amazing."
+</p>
+<strong>— Mark T.</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<div class="family">
+
+<img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09" alt="Family visiting dentist">
+
+<div>
+
+<h2>Family Friendly Dentistry</h2>
+
+<p>
+
+Our clinic focuses on preventive care, comfort and a friendly experience
+for patients of all ages.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="contact">
+
+<h2>Book an Appointment</h2>
+
+<form>
+
+<input placeholder="Your Name">
+
+<input placeholder="Phone Number">
+
+<input placeholder="Preferred Date">
+
+<textarea placeholder="Message"></textarea>
+
+<button>Request Appointment</button>
+
+</form>
+
+</section>
+
+<footer>
+
+BrightSmile Dental Clinic © 2026
+
+</footer>
+
+</body>
+</html>
