@@ -1,91 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nitisha | Simple Websites for Small Businesses</title>
-<meta name="description" content="Nitisha builds simple, fast websites for small businesses to create an online presence and collect customer enquiries.">
-<meta name="keywords" content="small business website developer, simple business website, contact form website, website for local business India">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Simple Websites for Small Businesses | EasyGoAITool Services</title>
+
+<meta name="description" content="Modern, fast websites for small businesses. Build your online presence and collect customer enquiries with a clean professional website.">
+
+<meta name="keywords" content="small business website developer India, freelance web developer India, website for local business, simple business website">
+
 <meta name="author" content="Nitisha">
 
-<!-- Open Graph for sharing -->
-<meta property="og:title" content="Nitisha | Websites for Small Businesses">
-<meta property="og:description" content="Helping small businesses get online with simple websites.">
+<meta name="robots" content="index, follow">
+
+<link rel="canonical" href="https://services.easygoaitool.online">
+
+<link rel="icon" href="/favicon.ico">
+
+<meta property="og:title" content="Websites for Small Businesses">
+<meta property="og:description" content="Clean modern websites that help small businesses get online quickly.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://services.easygoaitool.online">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
 <style>
-body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f8fafc;color:#1f2937;line-height:1.6}
-header{background:#111827;color:white;padding:70px 20px;text-align:center}
-header h1{font-size:42px;margin-bottom:10px}
-header p{font-size:18px;max-width:720px;margin:auto}
 
-.btn{display:inline-block;margin-top:20px;padding:14px 28px;background:#2563eb;color:white;text-decoration:none;border-radius:8px;font-weight:600}
-.btn-secondary{background:#16a34a}
-
-section{padding:60px 20px;max-width:1100px;margin:auto}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
-
-.card{background:white;padding:26px;border-radius:10px;box-shadow:0 6px 16px rgba(0,0,0,0.06)}
-
-.demo{background:#eef2ff;padding:40px;border-radius:12px;text-align:center}
-
-form{display:grid;gap:12px;max-width:520px;margin:auto}
-
-input,textarea{
-padding:12px;
-border:1px solid #d1d5db;
-border-radius:6px;
-font-size:14px
+:root{
+--bg:#0a0a0f;
+--surface:#14141c;
+--surface-2:#1c1c28;
+--text:#f1f1f4;
+--text-muted:#9494a8;
+--accent:#6366f1;
+--border:rgba(255,255,255,0.06);
 }
 
-button{
-padding:14px;
-background:#111827;
-color:white;
-border:none;
-border-radius:6px;
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+font-family:'Outfit',sans-serif;
+margin:0;
+background:var(--bg);
+color:var(--text);
+line-height:1.6;
+}
+
+header{
+text-align:center;
+padding:90px 20px 80px;
+}
+
+header h1{
+font-family:'Instrument Serif',serif;
+font-size:clamp(2.5rem,6vw,4rem);
+font-weight:400;
+margin-bottom:18px;
+}
+
+header strong{color:var(--accent)}
+
+.tagline{
+color:var(--text-muted);
+max-width:600px;
+margin:auto;
+margin-bottom:30px;
+}
+
+.btn-row{
+display:flex;
+justify-content:center;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:14px 26px;
+border-radius:10px;
+text-decoration:none;
 font-weight:600;
-cursor:pointer
+font-size:.95rem;
+display:inline-block;
+}
+
+.btn-primary{
+background:var(--accent);
+color:white;
+}
+
+.btn-secondary{
+background:var(--surface-2);
+color:var(--text);
+border:1px solid var(--border);
+}
+
+section{
+max-width:1100px;
+margin:auto;
+padding:70px 20px;
+}
+
+.section-head{
+margin-bottom:40px;
+}
+
+.section-head h2{
+font-family:'Instrument Serif',serif;
+font-size:2rem;
+margin-bottom:10px;
+}
+
+.section-head p{
+color:var(--text-muted);
+max-width:550px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.card{
+background:var(--surface);
+border:1px solid var(--border);
+padding:24px;
+border-radius:14px;
+}
+
+.card strong{
+display:block;
+margin-bottom:6px;
+}
+
+.card p{
+margin:0;
+color:var(--text-muted);
+font-size:.95rem;
+}
+
+.demo-wrap{
+background:var(--surface);
+border-radius:18px;
+border:1px solid var(--border);
+overflow:hidden;
+}
+
+.demo-browser{
+background:var(--surface-2);
+padding:10px 15px;
+border-bottom:1px solid var(--border);
+display:flex;
+gap:6px;
+}
+
+.demo-browser span{
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--text-muted);
+opacity:.5;
+}
+
+.demo-preview{
+text-align:center;
+padding:40px;
+}
+
+.demo-preview h3{
+font-family:'Instrument Serif',serif;
+margin-bottom:10px;
 }
 
 .highlight{
-background:#f1f5f9;
+background:var(--surface);
+border:1px solid var(--border);
+border-radius:18px;
 padding:40px;
-border-radius:12px
+}
+
+.highlight p{
+color:var(--text-muted);
+}
+
+form{
+max-width:460px;
+margin:auto;
+display:grid;
+gap:14px;
+}
+
+input,textarea{
+padding:14px;
+border-radius:10px;
+border:1px solid var(--border);
+background:var(--surface);
+color:var(--text);
+font-family:inherit;
+}
+
+textarea{min-height:120px}
+
+button{
+background:var(--accent);
+color:white;
+border:none;
+padding:14px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
 }
 
 footer{
 text-align:center;
-padding:30px;
-color:#6b7280;
-font-size:14px
+padding:40px;
+color:var(--text-muted);
+border-top:1px solid var(--border);
+font-size:.9rem;
 }
 
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-color:white;
-padding:14px 18px;
-border-radius:30px;
-font-weight:bold;
+footer a{
+color:var(--accent);
 text-decoration:none;
-box-shadow:0 6px 14px rgba(0,0,0,0.15)
 }
 
 </style>
 
-<!-- SEO structured data -->
 <script type="application/ld+json">
 {
 "@context":"https://schema.org",
 "@type":"Person",
 "name":"Nitisha",
 "jobTitle":"Technical Solutions Engineer",
-"description":"Builds simple websites for small businesses to create online presence.",
-"url":"https://services.easygoaitool.online"
+"url":"https://services.easygoaitool.online",
+"sameAs":["https://www.linkedin.com/in/nitisha-kaul-598729102/"]
 }
 </script>
 
@@ -94,133 +250,130 @@ box-shadow:0 6px 14px rgba(0,0,0,0.15)
 <body>
 
 <header>
-<h1>Helping Small Businesses Get Online</h1>
-<p>
+
+<h1>Helping small businesses get <strong>online</strong></h1>
+
+<p class="tagline">
 Hi, I'm Nitisha. I build simple, fast websites that help small businesses create an online presence and collect customer enquiries.
 </p>
 
-<a class="btn" href="#demo">See Example</a>
-<a class="btn btn-secondary" href="#contact">Request Website</a>
+<div class="btn-row">
+
+<a class="btn btn-primary" href="#contact">Request a Website</a>
+
+<a class="btn btn-secondary" href="https://www.linkedin.com/in/nitisha-kaul-598729102/" target="_blank">
+Connect on LinkedIn
+</a>
+
+</div>
 
 </header>
 
 <section>
-<h2>What I Can Help With</h2>
-<p>I focus on simple things that many small businesses need when getting started online.</p>
+
+<div class="section-head">
+<h2>What I can help with</h2>
+<p>Focused on what small businesses need when getting started online.</p>
+</div>
 
 <div class="grid">
 
 <div class="card">
-<strong>Simple Business Website</strong>
+<strong>Simple business website</strong>
 <p>A clean website explaining your services and how customers can contact you.</p>
 </div>
 
 <div class="card">
-<strong>Contact & Lead Form</strong>
-<p>A form where customers can send enquiries directly to your email.</p>
+<strong>Contact form</strong>
+<p>Customers can easily send enquiries directly from your website.</p>
 </div>
 
 <div class="card">
-<strong>Mobile Friendly Design</strong>
-<p>Your website will work properly on phones, which is where most visitors come from.</p>
+<strong>Mobile friendly design</strong>
+<p>Your website will work smoothly on phones and tablets.</p>
 </div>
 
 <div class="card">
-<strong>Fast Loading Pages</strong>
-<p>Simple lightweight pages that load quickly.</p>
+<strong>Fast loading pages</strong>
+<p>Lightweight pages that load quickly.</p>
 </div>
 
 <div class="card">
-<strong>Domain & Hosting Guidance</strong>
-<p>I can guide you on how to connect your domain and host the website.</p>
+<strong>Domain & hosting guidance</strong>
+<p>I can help you connect your domain and hosting setup.</p>
 </div>
 
-<div class="card">
-<strong>Starter Online Presence</strong>
-<p>A first step for businesses that currently have no website.</p>
-</div>
-
-</div>
-</section>
-
-<section id="demo">
-<h2>Example Website Layout</h2>
-
-<div class="demo">
-<p>
-This is an example of the type of website layout I can create for a local business.
-</p>
-
-<p>
-Typical sections include services, about the business, contact information and an enquiry form.
-</p>
-
-<a class="btn" href="#contact">I Want Something Similar</a>
 </div>
 
 </section>
 
-<section class="highlight">
-<h2>About Me</h2>
+<section id="demo">
 
-<p>
-I'm Nitisha, a Technical Solutions Engineer working in AdTech. I enjoy building simple tools and websites using modern technology.
-</p>
+<div class="section-head">
+<h2>Example website layout</h2>
+<p>This shows the type of simple layout a business website can have.</p>
+</div>
 
-<p>
-Through this project I help small businesses create a basic online presence so customers can easily find them and contact them online.
-</p>
+<div class="demo-wrap">
 
-<p>
-My approach is simple: clean websites, fast setup, and practical functionality.
-</p>
+<div class="demo-browser">
+<span></span><span></span><span></span>
+</div>
+
+<div class="demo-preview">
+
+<h3>Your Business Website</h3>
+
+<p>Services, about, contact information and enquiry form.</p>
+
+<a class="btn btn-primary" href="https://demo.easygoaitool.online" target="_blank">
+View demo website
+</a>
+
+</div>
+
+</div>
 
 </section>
 
 <section>
-<h2>Why Having a Website Helps</h2>
 
-<div class="grid">
+<div class="highlight">
 
-<div class="card">
-<strong>Customers Can Find You Online</strong>
-<p>Many people search online before contacting a business.</p>
-</div>
+<h2>About</h2>
 
-<div class="card">
-<strong>Professional Presence</strong>
-<p>A website makes a business look more established.</p>
-</div>
+<p>
+I'm Nitisha, a Technical Solutions Engineer working in AdTech. I enjoy building simple tools and websites using modern technologies.
+</p>
 
-<div class="card">
-<strong>Easy Customer Enquiries</strong>
-<p>Visitors can send questions through a simple form.</p>
-</div>
+<p>
+Through this project I help small businesses create their first online presence so customers can easily find and contact them online.
+</p>
 
 </div>
 
 </section>
 
 <section id="contact">
-<h2>Request a Website</h2>
 
-<p style="text-align:center;max-width:700px;margin:auto">
-If you would like a simple website for your business, you can send me a message below.
-</p>
+<div class="section-head">
+<h2>Request a website</h2>
+<p>Send a message describing your business and what you need.</p>
+</div>
 
-<br>
+<form action="https://formspree.io/f/xqeybvpk" method="POST">
 
-<form action="https://formspree.io/f/xblyyqzg" method="POST">
+<input type="text" name="name" placeholder="Your name" required>
 
-<input type="text" name="name" placeholder="Your Name" required>
+<input type="email" name="email" placeholder="Email address" required>
 
-<input type="email" name="email" placeholder="Email Address" required>
+<input type="text" name="business" placeholder="Business name">
 
-<input type="text" name="business" placeholder="Business Name">
+<textarea name="message" placeholder="Tell me about your business"></textarea>
 
-<textarea name="message" rows="4" placeholder="Tell me a bit about your business"></textarea>
+<input type="hidden" name="_subject" value="New Website Request">
 
-<button type="submit">Send Enquiry</button>
+<button type="submit">Send enquiry</button>
 
 </form>
 
@@ -228,15 +381,15 @@ If you would like a simple website for your business, you can send me a message 
 
 <footer>
 
+<p>© 2026 EasyGoAITool Services</p>
+
 <p>
-© 2026 Nitisha | Simple Websites for Small Businesses
+<a href="https://www.linkedin.com/in/nitisha-kaul-598729102/" target="_blank">
+LinkedIn Profile
+</a>
 </p>
 
 </footer>
-
-<a class="whatsapp" href="https://wa.me/91XXXXXXXXXX" target="_blank">
-Chat on WhatsApp
-</a>
 
 </body>
 </html>
