@@ -8,7 +8,7 @@
 
 <title>BrightSmile Dental Clinic | Demo Website</title>
 
-<meta name="description" content="Modern dental clinic website demo showcasing professional dental services website design.">
+<meta name="description" content="Professional dental clinic website demo for dental practices.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,13 +25,13 @@ color:#1e293b;
 line-height:1.6;
 }
 
-/* DEMO WATERMARK */
+/* WATERMARK */
 
 body::after{
 content:"DEMO WEBSITE";
 position:fixed;
 top:40%;
-left:8%;
+left:10%;
 font-size:80px;
 color:rgba(0,0,0,0.05);
 transform:rotate(-25deg);
@@ -49,12 +49,6 @@ padding:10px;
 font-size:14px;
 }
 
-.demo-banner a{
-color:#60a5fa;
-text-decoration:none;
-font-weight:600;
-}
-
 /* NAV */
 
 nav{
@@ -63,14 +57,13 @@ justify-content:space-between;
 align-items:center;
 padding:18px 40px;
 background:white;
-box-shadow:0 3px 12px rgba(0,0,0,0.05);
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
 }
 
 nav a{
 text-decoration:none;
 color:#334155;
 margin-left:18px;
-font-size:15px;
 }
 
 /* HERO */
@@ -105,10 +98,6 @@ font-size:42px;
 margin-bottom:10px;
 }
 
-.hero p{
-font-size:18px;
-}
-
 .btn{
 background:#2563eb;
 color:white;
@@ -120,7 +109,7 @@ margin-top:16px;
 font-weight:600;
 }
 
-/* SECTIONS */
+/* SECTION */
 
 section{
 max-width:1100px;
@@ -150,7 +139,7 @@ transition:transform 0.2s;
 }
 
 .card:hover{
-transform:translateY(-6px);
+transform:translateY(-5px);
 }
 
 .card img{
@@ -164,8 +153,8 @@ padding:20px;
 }
 
 .card strong{
-display:block;
 font-size:18px;
+display:block;
 margin-bottom:6px;
 }
 
@@ -181,21 +170,6 @@ align-items:center;
 .doctor img{
 width:100%;
 border-radius:12px;
-}
-
-.badges{
-margin-top:12px;
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
-
-.badge{
-background:#e0f2fe;
-color:#0369a1;
-padding:6px 10px;
-border-radius:6px;
-font-size:13px;
 }
 
 /* REVIEWS */
@@ -277,8 +251,7 @@ font-size:50px;
 <body>
 
 <div class="demo-banner">
-⚠️ Demo website created to showcase web design services.
-<a href="/">Get a website like this</a>
+⚠️ Demo website created for design showcase purposes.
 </div>
 
 <nav>
@@ -316,9 +289,7 @@ font-size:50px;
 
 <div class="card">
 
-<img loading="lazy"
-src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=900&q=80"
-alt="Dentist performing teeth cleaning">
+<img src="https://images.unsplash.com/photo-1606813909354-5dcbb0d0b6ad?auto=format&fit=crop&w=900&q=80" alt="Dental cleaning">
 
 <div class="card-content">
 
@@ -332,9 +303,7 @@ alt="Dentist performing teeth cleaning">
 
 <div class="card">
 
-<img loading="lazy"
-src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=900&q=80"
-alt="Cosmetic dental procedure">
+<img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=80" alt="Cosmetic dentistry">
 
 <div class="card-content">
 
@@ -348,9 +317,7 @@ alt="Cosmetic dental procedure">
 
 <div class="card">
 
-<img loading="lazy"
-src="https://images.unsplash.com/photo-1609207825181-52d3214556d6?auto=format&fit=crop&w=900&q=80"
-alt="Modern dental clinic treatment room">
+<img src="https://images.unsplash.com/photo-1609840112855-9e30d5c6c4e1?auto=format&fit=crop&w=900&q=80" alt="Dental clinic room">
 
 <div class="card-content">
 
@@ -379,14 +346,6 @@ alt="Modern dental clinic treatment room">
 <h3>Dr Sarah Mitchell</h3>
 
 <p>Experienced family dentist providing comfortable and modern dental treatments.</p>
-
-<div class="badges">
-
-<div class="badge">DDS</div>
-<div class="badge">Implant Specialist</div>
-<div class="badge">10+ Years Experience</div>
-
-</div>
 
 </div>
 
@@ -440,11 +399,8 @@ alt="Modern dental clinic treatment room">
 <form onsubmit="alert('Demo form — does not submit data'); return false;">
 
 <input placeholder="Your Name">
-
 <input placeholder="Phone Number">
-
 <input placeholder="Preferred Date">
-
 <textarea placeholder="Message"></textarea>
 
 <button>Request Appointment</button>
