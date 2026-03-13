@@ -1,63 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Dental Clinic Website Demo</title>
+<title>BrightSmile Dental Clinic | Demo Website</title>
 
-<meta name="description" content="Example dental clinic website layout demo created to showcase website design for dental clinics.">
+<meta name="description" content="Demo dental clinic website layout showcasing a modern website for dental practices.">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 font-family:'Poppins',sans-serif;
 margin:0;
-background:#f8fafc;
+background:#f7f9fc;
 color:#1e293b;
-position:relative;
+line-height:1.6;
 }
 
-/* WATERMARK */
+/* DEMO WATERMARK */
 
 body::after{
 content:"DEMO WEBSITE";
 position:fixed;
 top:40%;
-left:20%;
+left:10%;
 font-size:80px;
-color:rgba(0,0,0,0.06);
+color:rgba(0,0,0,0.05);
 transform:rotate(-25deg);
 pointer-events:none;
 z-index:9999;
 font-weight:700;
 }
 
-/* DEMO DISCLAIMER */
+/* DEMO BANNER */
 
 .demo-banner{
 background:#111827;
-color:#f9fafb;
-padding:12px;
+color:#fff;
 text-align:center;
+padding:10px;
 font-size:14px;
 }
 
 .demo-banner a{
 color:#60a5fa;
-font-weight:600;
 text-decoration:none;
+font-weight:600;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 40px;
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+nav a{
+text-decoration:none;
+color:#334155;
+margin-left:18px;
+font-size:14px;
 }
 
 /* HERO */
 
 .hero{
-position:relative;
 height:420px;
-background-image:url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe');
+background-image:url("https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=1600&q=60");
 background-size:cover;
 background-position:center;
 display:flex;
@@ -65,13 +86,14 @@ align-items:center;
 justify-content:center;
 text-align:center;
 color:white;
+position:relative;
 }
 
 .hero::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.45);
+background:rgba(0,0,0,0.45);
 }
 
 .hero-content{
@@ -81,22 +103,17 @@ z-index:2;
 
 .hero h1{
 font-size:42px;
-margin:0;
-}
-
-.hero p{
-margin-top:10px;
+margin-bottom:10px;
 }
 
 .btn{
-display:inline-block;
-margin-top:20px;
-padding:14px 28px;
 background:#2563eb;
 color:white;
+padding:12px 24px;
+border-radius:6px;
 text-decoration:none;
-border-radius:8px;
-font-weight:600;
+display:inline-block;
+margin-top:15px;
 }
 
 /* SECTIONS */
@@ -109,22 +126,22 @@ padding:70px 20px;
 
 h2{
 text-align:center;
-margin-bottom:40px;
+margin-bottom:35px;
 }
 
 /* SERVICES */
 
 .services{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:24px;
 }
 
 .card{
 background:white;
-border-radius:12px;
+border-radius:10px;
 overflow:hidden;
-box-shadow:0 6px 18px rgba(0,0,0,.08);
+box-shadow:0 4px 14px rgba(0,0,0,0.06);
 }
 
 .card img{
@@ -148,60 +165,60 @@ align-items:center;
 
 .doctor img{
 width:100%;
-border-radius:12px;
+border-radius:10px;
 }
 
 .badges{
-margin-top:15px;
+margin-top:10px;
 display:flex;
-gap:10px;
+gap:8px;
 flex-wrap:wrap;
 }
 
 .badge{
 background:#e0f2fe;
 color:#0369a1;
-padding:6px 12px;
+padding:5px 10px;
 border-radius:6px;
-font-size:14px;
+font-size:13px;
 }
 
 /* REVIEWS */
 
 .reviews{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
 }
 
 .review{
 background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 6px 16px rgba(0,0,0,.08);
+padding:18px;
+border-radius:8px;
+box-shadow:0 3px 10px rgba(0,0,0,0.05);
 }
 
-/* FORM */
+/* CONTACT */
 
 form{
+max-width:420px;
+margin:auto;
 display:grid;
 gap:12px;
-max-width:450px;
-margin:auto;
 }
 
 input,textarea{
-padding:12px;
-border-radius:8px;
+padding:10px;
+border-radius:6px;
 border:1px solid #cbd5f5;
 }
 
 button{
-padding:14px;
+padding:12px;
 border:none;
 background:#2563eb;
 color:white;
-border-radius:8px;
+border-radius:6px;
 font-weight:600;
 cursor:pointer;
 }
@@ -223,7 +240,6 @@ grid-template-columns:1fr;
 
 body::after{
 font-size:50px;
-left:5%;
 }
 
 }
@@ -235,10 +251,22 @@ left:5%;
 <body>
 
 <div class="demo-banner">
-⚠️ This is a <strong>demo website example</strong> created by Nitisha to showcase website design for dental clinics.  
-All names, reviews and doctor profiles are fictional.  
-<a href="/services">Get a website like this for your business</a>
+⚠️ This is a demo dental website created by Nitisha to showcase website design services.
+<a href="/">Get a website like this</a>
 </div>
+
+<nav>
+
+<strong>BrightSmile Dental</strong>
+
+<div>
+<a href="#">Home</a>
+<a href="#services">Services</a>
+<a href="#doctor">Dentist</a>
+<a href="#contact">Contact</a>
+</div>
+
+</nav>
 
 <div class="hero">
 
@@ -246,7 +274,7 @@ All names, reviews and doctor profiles are fictional.
 
 <h1>BrightSmile Dental Clinic</h1>
 
-<p>Modern Family Friendly Dental Care</p>
+<p>Modern Family Dental Care</p>
 
 <a class="btn" href="#contact">Book Appointment</a>
 
@@ -254,61 +282,77 @@ All names, reviews and doctor profiles are fictional.
 
 </div>
 
-<section>
+<section id="services">
 
 <h2>Our Dental Services</h2>
 
 <div class="services">
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1606813902914-9f9c0e2c1c43" alt="Dental cleaning tools">
+
+<img src="https://images.unsplash.com/photo-1606813902914-9f9c0e2c1c43?auto=format&fit=crop&w=900&q=60">
+
 <div class="card-content">
+
 <strong>Teeth Cleaning</strong>
+
 <p>Professional cleaning and preventive dental care.</p>
+
 </div>
+
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce" alt="Dental treatment">
+
+<img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=60">
+
 <div class="card-content">
+
 <strong>Cosmetic Dentistry</strong>
+
 <p>Whitening and smile design treatments.</p>
+
 </div>
+
 </div>
 
 <div class="card">
-<img src="https://images.unsplash.com/photo-1609840112855-9e30d5c6c4e1" alt="Dental tools">
+
+<img src="https://images.unsplash.com/photo-1609840112855-9e30d5c6c4e1?auto=format&fit=crop&w=900&q=60">
+
 <div class="card-content">
+
 <strong>Dental Implants</strong>
+
 <p>Permanent solutions for missing teeth.</p>
+
 </div>
+
 </div>
 
 </div>
 
 </section>
 
-<section>
+<section id="doctor">
 
 <h2>Meet Our Dentist</h2>
 
 <div class="doctor">
 
-<img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" alt="Dentist portrait">
+<img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=60">
 
 <div>
 
 <h3>Dr Sarah Mitchell</h3>
 
-<p>
-Example dentist profile used only for website layout demonstration.
-</p>
+<p>Example dentist profile used for demonstration purposes.</p>
 
 <div class="badges">
 
 <div class="badge">DDS</div>
 <div class="badge">Implant Specialist</div>
-<div class="badge">ADA Member</div>
+<div class="badge">10+ Years Experience</div>
 
 </div>
 
@@ -325,17 +369,17 @@ Example dentist profile used only for website layout demonstration.
 <div class="reviews">
 
 <div class="review">
-<p>Example testimonial used for demo purposes.</p>
+<p>Friendly staff and great service. Highly recommend this clinic!</p>
 <strong>— Emily R.</strong>
 </div>
 
 <div class="review">
-<p>Example testimonial used for demo purposes.</p>
+<p>The dentist explained everything clearly and the treatment was painless.</p>
 <strong>— Daniel K.</strong>
 </div>
 
 <div class="review">
-<p>Example testimonial used for demo purposes.</p>
+<p>Very clean clinic and professional team.</p>
 <strong>— Mark T.</strong>
 </div>
 
@@ -347,7 +391,7 @@ Example dentist profile used only for website layout demonstration.
 
 <h2>Book an Appointment</h2>
 
-<form onsubmit="alert('This is a demo form. It does not submit data.'); return false;">
+<form onsubmit="alert('This is a demo form and does not submit data.'); return false;">
 
 <input placeholder="Your Name">
 
@@ -365,9 +409,7 @@ Example dentist profile used only for website layout demonstration.
 
 <footer>
 
-<p>
-Demo dental clinic website layout created for demonstration purposes only.
-</p>
+<p>Demo dental clinic website created for design showcase purposes.</p>
 
 </footer>
 
