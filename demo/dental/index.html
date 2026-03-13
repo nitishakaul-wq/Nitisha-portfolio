@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>BrightSmile Dental Clinic | Demo Website</title>
-
-<meta name="description" content="Professional dental clinic website demo for dental practices.">
+<meta name="description" content="Professional dental clinic website demo.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,33 +17,23 @@
 body{
 font-family:'Poppins',sans-serif;
 margin:0;
-background:#f5f7fb;
+background:#f4f7fb;
 color:#1e293b;
 line-height:1.6;
 }
 
-/* WATERMARK */
+/* DEMO WATERMARK */
 
 body::after{
 content:"DEMO WEBSITE";
 position:fixed;
 top:40%;
-left:10%;
+left:8%;
 font-size:80px;
 color:rgba(0,0,0,0.05);
 transform:rotate(-25deg);
 pointer-events:none;
 font-weight:700;
-}
-
-/* DEMO BANNER */
-
-.demo-banner{
-background:#111827;
-color:white;
-text-align:center;
-padding:10px;
-font-size:14px;
 }
 
 /* NAV */
@@ -135,11 +122,6 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
-transition:transform 0.2s;
-}
-
-.card:hover{
-transform:translateY(-5px);
 }
 
 .card img{
@@ -187,17 +169,6 @@ border-radius:10px;
 box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* HOURS */
-
-.hours{
-background:white;
-padding:26px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,0.05);
-max-width:500px;
-margin:auto;
-}
-
 /* CONTACT */
 
 form{
@@ -223,62 +194,33 @@ font-weight:600;
 cursor:pointer;
 }
 
-/* FOOTER */
-
 footer{
 text-align:center;
 padding:30px;
 background:#f1f5f9;
-font-size:14px;
-}
-
-@media(max-width:800px){
-
-.doctor{
-grid-template-columns:1fr;
-}
-
-body::after{
-font-size:50px;
-}
-
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="demo-banner">
-⚠️ Demo website created for design showcase purposes.
-</div>
-
 <nav>
-
 <strong>BrightSmile Dental</strong>
-
 <div>
 <a href="#">Home</a>
 <a href="#services">Services</a>
 <a href="#doctor">Dentist</a>
 <a href="#contact">Contact</a>
 </div>
-
 </nav>
 
 <div class="hero">
-
 <div class="hero-content">
-
 <h1>BrightSmile Dental Clinic</h1>
-
 <p>Modern Family Dental Care</p>
-
 <a class="btn" href="#contact">Book Appointment</a>
-
 </div>
-
 </div>
 
 <section id="services">
@@ -288,45 +230,27 @@ font-size:50px;
 <div class="services">
 
 <div class="card">
-
-<img src="https://images.unsplash.com/photo-1606813909354-5dcbb0d0b6ad?auto=format&fit=crop&w=900&q=80" alt="Dental cleaning">
-
+<img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=900&q=80" alt="Dental cleaning">
 <div class="card-content">
-
 <strong>Teeth Cleaning</strong>
-
 <p>Professional cleaning and preventive dental care.</p>
-
 </div>
-
 </div>
 
 <div class="card">
-
 <img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=80" alt="Cosmetic dentistry">
-
 <div class="card-content">
-
 <strong>Cosmetic Dentistry</strong>
-
 <p>Whitening and smile design treatments.</p>
-
 </div>
-
 </div>
 
 <div class="card">
-
-<img src="https://images.unsplash.com/photo-1609840112855-9e30d5c6c4e1?auto=format&fit=crop&w=900&q=80" alt="Dental clinic room">
-
+<img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=80" alt="Dental clinic room">
 <div class="card-content">
-
 <strong>Dental Implants</strong>
-
 <p>Permanent solutions for missing teeth.</p>
-
 </div>
-
 </div>
 
 </div>
@@ -342,11 +266,8 @@ font-size:50px;
 <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80">
 
 <div>
-
 <h3>Dr Sarah Mitchell</h3>
-
 <p>Experienced family dentist providing comfortable and modern dental treatments.</p>
-
 </div>
 
 </div>
@@ -378,41 +299,22 @@ font-size:50px;
 
 </section>
 
-<section>
-
-<h2>Clinic Hours</h2>
-
-<div class="hours">
-
-<p>Monday – Friday: 9:00 AM – 6:00 PM</p>
-<p>Saturday: 9:00 AM – 3:00 PM</p>
-<p>Sunday: Closed</p>
-
-</div>
-
-</section>
-
 <section id="contact">
 
 <h2>Book an Appointment</h2>
 
 <form onsubmit="alert('Demo form — does not submit data'); return false;">
-
 <input placeholder="Your Name">
 <input placeholder="Phone Number">
 <input placeholder="Preferred Date">
 <textarea placeholder="Message"></textarea>
-
 <button>Request Appointment</button>
-
 </form>
 
 </section>
 
 <footer>
-
 <p>Demo dental clinic website created for design showcase purposes.</p>
-
 </footer>
 
 </body>
