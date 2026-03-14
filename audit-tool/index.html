@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -11,54 +12,46 @@
 <style>
 
 body{
-font-family:Arial;
 background:#0a0a0f;
 color:white;
+font-family:Arial;
 text-align:center;
-padding:40px;
+padding:60px;
 }
 
 input{
 padding:14px;
-width:340px;
-border-radius:8px;
-border:1px solid #333;
+width:320px;
 background:#111;
+border:1px solid #333;
 color:white;
+border-radius:8px;
 }
 
 button{
 padding:14px 20px;
-border:none;
 background:#6366f1;
-color:white;
+border:none;
 border-radius:8px;
-cursor:pointer;
+color:white;
 margin-left:10px;
+cursor:pointer;
 }
 
 #results{
 margin-top:40px;
-max-width:800px;
-margin:auto;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
 text-align:left;
 }
 
 .card{
 background:#111;
-padding:16px;
+padding:20px;
 border-radius:8px;
-margin-top:10px;
+margin-top:15px;
 }
-
-.score{
-font-size:20px;
-margin-bottom:10px;
-}
-
-.good{color:#22c55e}
-.ok{color:#f59e0b}
-.bad{color:#ef4444}
 
 </style>
 
@@ -68,7 +61,7 @@ margin-bottom:10px;
 
 <h1>Free Website Audit</h1>
 
-<p>Analyze SEO structure and technical health</p>
+<p>Analyze basic SEO structure</p>
 
 <input id="url" placeholder="https://example.com">
 
@@ -78,81 +71,50 @@ margin-bottom:10px;
 
 <script>
 
-function color(score){
-
-if(score>=80) return "good"
-if(score>=60) return "ok"
-return "bad"
-
-}
-
 async function runAudit(){
 
-const url=document.getElementById("url").value
+const url=document.getElementById("url").value;
 
-const results=document.getElementById("results")
+const results=document.getElementById("results");
 
-results.innerHTML="Scanning website..."
+results.innerHTML="Running audit...";
 
 try{
 
-const res=await fetch("/api/audit",{
+const response=await fetch("/api/audit",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({url})
-})
+});
 
-const data=await res.json()
+const data=await response.json();
 
 results.innerHTML=`
 
 <div class="card">
 
-<div class="score ${color(data.seo_score)}">
-SEO Score: ${data.seo_score}
-</div>
-
-<div class="score ${color(data.overall_score)}">
-Overall Score: ${data.overall_score}
-</div>
-
-</div>
-
-<div class="card">
-
-<b>Technical Checks</b><br><br>
+<h3>SEO Score: ${data.seo_score}</h3>
 
 Title: ${data.title}<br>
-
-H1 tags: ${data.h1_count}<br>
-
-Images: ${data.images}<br>
-
-Images missing alt: ${data.missing_alt}<br>
-
-Load time: ${data.load_time} ms<br>
-
-Robots.txt: ${data.robots ? "Detected ✔" : "Missing ❌"}<br>
-
-Sitemap.xml: ${data.sitemap ? "Detected ✔" : "Missing ❌"}
+H1 Tags: ${data.h1_count}
 
 </div>
 
 <div class="card">
 
-<b>Recommendations</b><br><br>
+<h3>Recommendations</h3>
 
-${data.recommendations.map(r=>`• ${r}<br>`).join("")}
+${data.recommendations.map(r=>"• "+r).join("<br>")}
 
 </div>
 
-`
+`;
 
-}catch(e){
+}catch(err){
 
-results.innerHTML="Audit failed. Try another website."
+results.innerHTML="Audit failed. Try another website.";
 
 }
 
@@ -161,4 +123,5 @@ results.innerHTML="Audit failed. Try another website."
 </script>
 
 </body>
+
 </html>
