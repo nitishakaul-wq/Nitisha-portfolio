@@ -12,86 +12,80 @@ if(!url){
 return res.status(400).json({error:"No URL provided"})
 }
 
-const response=await fetch(url)
+// fetch website safely
+const response=await fetch(url,{
+headers:{
+"User-Agent":"Mozilla/5.0"
+}
+})
+
 const html=await response.text()
 
-// -------- BASIC CHECKS --------
+// -------- REAL CHECKS --------
 
-const titleMatch=html.match(/<title>(.*?)</title>/i)
-const metaDescMatch=html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^%22]*)["']/i)
+const title=html.match(/<title>(.*?)</title>/i)
+const meta=html.match(/name=["']description["']\s*content=["']([^%22]*)/i)
+const h1=[...html.matchAll(/<h1/gi)]
+const images=[...html.matchAll(/<img/gi)]
+const alts=[...html.matchAll(/alt=/gi)]
+const links=[...html.matchAll(/<a\s+href/gi)]
 
-const h1Matches=[...html.matchAll(/<h1[^>]*>(.*?)</h1>/gi)]
-const imgMatches=[...html.matchAll(/<img[^>]*>/gi)]
+let seo=0
+let speed=70
+let design=70
 
-const altMatches=[...html.matchAll(/alt=["'](.*?)["']/gi)]
-
-const linkMatches=[...html.matchAll(/<a\s+(?:[^>]*?\s+)?href=["'](.*?)["']/gi)]
-
-// -------- SCORES --------
-
-let seoScore=0
-let speedScore=70
-let designScore=70
-
-// Title check
-if(titleMatch){
-const titleLength=titleMatch[1].length
-if(titleLength>10 && titleLength<60){
-seoScore+=20
-}else{
-seoScore+=10
-}
+// title
+if(title){
+const len=title[1].length
+seo+=len>10 && len<60 ? 20 : 10
 }
 
-// Meta description
-if(metaDescMatch){
-seoScore+=20
+// meta
+if(meta){
+seo+=20
 }
 
-// H1 usage
-if(h1Matches.length===1){
-seoScore+=20
-}else if(h1Matches.length>1){
-seoScore+=10
+// h1
+if(h1.length===1){
+seo+=20
+}else if(h1.length>1){
+seo+=10
 }
 
-// Image alt tags
-if(imgMatches.length>0){
-const altRatio=altMatches.length/imgMatches.length
-seoScore+=Math.round(altRatio*20)
+// alt tags
+if(images.length>0){
+const ratio=alts.length/images.length
+seo+=Math.round(ratio*20)
 }
 
-// Internal links
-if(linkMatches.length>5){
-seoScore+=10
+// links
+if(links.length>5){
+seo+=10
 }
 
-// HTTPS
+// https
 if(url.startsWith("https")){
-seoScore+=10
+seo+=10
 }
 
-// Content length
-const textContent=html.replace(/<[^>]*>/g,"")
-if(textContent.length>2000){
-seoScore+=10
+// content length
+const text=html.replace(/<[^>]*>/g,"")
+if(text.length>2000){
+seo+=10
 }
 
-if(seoScore>100){
-seoScore=100
+if(seo>100){
+seo=100
 }
 
-// Overall score
-const overallScore=Math.round((seoScore+speedScore+designScore)/3)
+const overall=Math.round((seo+speed+design)/3)
 
-// -------- AI RECOMMENDATIONS --------
-
-const snippet=textContent.slice(0,2000)
+// -------- AI SUGGESTIONS --------
 
 let recommendations=[
 "Add meta description",
-"Improve heading structure",
-"Optimize images with alt tags"
+"Improve heading hierarchy",
+"Add alt text to images"
 ]
 
 try{
@@ -107,41 +101,45 @@ model:"llama3-70b-8192",
 messages:[
 {
 role:"system",
-content:"You are an SEO expert. Return JSON with recommendations array only."
+content:"You are an SEO expert. Return 3 short website improvement suggestions as a JSON array."
 },
 {
 role:"user",
-content:`Analyze this website content and suggest SEO improvements:\n\n${snippet}`
+content:text.slice(0,2000)
 }
 ]
 })
 })
 
-const aiData=await ai.json()
+const data=await ai.json()
 
-const aiText=aiData.choices?.[0]?.message?.content
+const output=data.choices?.[0]?.message?.content
 
-const parsed=JSON.parse(aiText)
-
-if(parsed.recommendations){
-recommendations=parsed.recommendations
+try{
+const parsed=JSON.parse(output)
+if(Array.isArray(parsed)){
+recommendations=parsed
 }
+}catch{}
 
-}catch(e){
-// fallback
-}
+}catch{}
 
 return res.status(200).json({
-seo_score:seoScore,
-speed_score:speedScore,
-design_score:designScore,
-overall_score:overallScore,
+seo_score:seo,
+speed_score:speed,
+design_score:design,
+overall_score:overall,
 recommendations
 })
 
-}catch(err){
+}catch(e){
 
-return res.status(500).json({error:"Audit failed"})
+console.error(e)
+
+return res.status(500).json({
+error:"Audit failed"
+})
 
 }
+
 }
