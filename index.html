@@ -687,20 +687,41 @@
     }
 
     .demo-panel-label {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
+      color: var(--accent-2);
       margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-panel-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { opacity: 0.85; }
+      75% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
     }
 
     .demo-mock {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(99, 102, 241, 0.08);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .demo-mock:hover {
+      box-shadow: var(--shadow-lg), 0 0 24px var(--accent-glow-soft);
     }
 
     .demo-mock-browser {
@@ -708,7 +729,7 @@
       padding: 10px 14px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -717,36 +738,65 @@
       height: 10px;
       border-radius: 50%;
       background: var(--text-muted);
-      opacity: 0.4;
+      opacity: 0.5;
+    }
+
+    .demo-mock-browser .mock-url {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      opacity: 0.9;
     }
 
     .demo-mock-preview {
-      padding: 24px 20px 32px;
-      min-height: 200px;
+      padding: 28px 22px 36px;
+      min-height: 220px;
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.06) 0%, transparent 50%);
+      position: relative;
     }
 
     .demo-mock-preview .mock-hero-title {
       font-family: 'Instrument Serif', serif;
-      font-size: 1.5rem;
-      margin: 0 0 8px;
+      font-size: 1.6rem;
+      margin: 0 0 10px;
       color: var(--text);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
     }
 
     .demo-mock-preview .mock-hero-title span {
-      color: var(--accent);
+      background: linear-gradient(135deg, #a5b4fc, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       font-style: italic;
     }
 
     .demo-mock-preview .mock-hero-tag {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      margin: 0 0 16px;
+      margin: 0 0 20px;
+      line-height: 1.5;
+    }
+
+    .demo-mock-preview .mock-cta {
+      display: inline-block;
+      padding: 8px 16px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), #4f46e5);
+      border-radius: 8px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 12px var(--accent-glow);
     }
 
     .demo-mock-preview .mock-placeholder {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      opacity: 0.7;
+      opacity: 0.8;
+      letter-spacing: 0.02em;
     }
 
     .demo-disclaimer {
@@ -1086,15 +1136,17 @@
         </div>
 
         <div class="demo-panel" aria-live="polite" aria-label="Live preview of your homepage">
-          <p class="demo-panel-label">Live preview — your homepage mock</p>
+          <p class="demo-panel-label">Your homepage, in real time</p>
           <div class="demo-mock">
             <div class="demo-mock-browser">
               <span></span><span></span><span></span>
+              <span class="mock-url" id="mock-url">yourbusiness.com</span>
             </div>
             <div class="demo-mock-preview" id="demo-mock-preview">
               <p class="mock-hero-title">Welcome to <span id="mock-business-name">Your Business</span></p>
               <p class="mock-hero-tag" id="mock-tagline">Your tagline will appear here.</p>
-              <p class="mock-placeholder">Services · About · Contact — tailored to you.</p>
+              <span class="mock-cta">Get in touch</span>
+              <p class="mock-placeholder">Home · Services · About · Contact — all tailored to you.</p>
             </div>
           </div>
           <p class="demo-disclaimer">This is a visual demo only. Final design and content will be tailored to your requirements and feedback.</p>
@@ -1131,6 +1183,7 @@
     var messageInput = document.getElementById('message');
     var mockNameEl = document.getElementById('mock-business-name');
     var mockTaglineEl = document.getElementById('mock-tagline');
+    var mockUrlEl = document.getElementById('mock-url');
     if (!businessInput || !messageInput || !mockNameEl || !mockTaglineEl) return;
 
     var taglineByKeyword = {
@@ -1154,11 +1207,16 @@
       return firstSentence || 'Your tagline will appear here.';
     }
 
+    function slugify(s) {
+      return s.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '') || 'yourbusiness';
+    }
+
     function updateMock() {
       var business = (businessInput.value || '').trim();
       var message = (messageInput.value || '').trim();
       mockNameEl.textContent = business || 'Your Business';
       mockTaglineEl.textContent = business ? getTagline(message) : 'Your tagline will appear here.';
+      if (mockUrlEl) mockUrlEl.textContent = business ? slugify(business) + '.com' : 'yourbusiness.com';
     }
 
     var debounceTimer;
