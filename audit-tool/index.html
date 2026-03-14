@@ -259,6 +259,7 @@
     }
     .details-grid dd.ok { color: var(--success); }
     .details-grid dd.missing { color: var(--danger); }
+    .details-grid dd .text-muted { color: var(--text-muted); }
 
     .recommendations ul {
       margin: 0;
@@ -278,6 +279,26 @@
       color: #fca5a5;
       text-align: center;
     }
+
+    .loading-hint {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .partial-notice {
+      background: rgba(234, 179, 8, 0.12);
+      border: 1px solid rgba(234, 179, 8, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: #facc15;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .partial-notice svg { flex-shrink: 0; margin-top: 2px; }
 
     @media (max-width: 600px) {
       .hero { padding: 32px 16px 40px; }
@@ -322,6 +343,7 @@
         else html += '<span class="spinner"></span>';
         html += '<span>' + escapeHtml(label) + '</span></div>';
       });
+      html += '<p class="loading-hint">Sites without robots.txt or sitemap usually finish in a few seconds.</p>';
       html += '</div>';
       return html;
     }
@@ -355,12 +377,20 @@
       var content = b.content_quality != null ? b.content_quality : 0;
       var details = data.details || {};
       var recs = Array.isArray(data.recommendations) ? data.recommendations : [];
+      var technicalSkipped = data.technical_checks_skipped === true;
 
       var title = escapeHtml(String(details.title != null ? details.title : '—'));
       var pageSize = details.page_size_bytes != null ? details.page_size_bytes : 0;
       var pageSizeKb = (pageSize / 1024).toFixed(1);
 
-      var html = '<div class="score-hero">';
+      var html = '';
+      if (technicalSkipped) {
+        html += '<div class="partial-notice">';
+        html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>';
+        html += '<span>Some technical checks (robots.txt, sitemap) were skipped because the server didn’t respond in time. Page-level results below are complete.</span>';
+        html += '</div>';
+      }
+      html += '<div class="score-hero">';
       html += '<div class="score-circle" style="--pct:' + score + '">';
       html += '<div class="score-circle-inner">' + score + '</div></div>';
       html += '<div class="score-label">SEO Score</div></div>';
@@ -385,8 +415,8 @@
       html += '<dt>HTTPS</dt><dd>' + (details.is_https ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
       html += '<dt>Canonical</dt><dd>' + (details.has_canonical ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
       html += '<dt>Viewport</dt><dd>' + (details.has_viewport ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
-      html += '<dt>robots.txt</dt><dd>' + (details.has_robots_txt ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
-      html += '<dt>Sitemap</dt><dd>' + (details.has_sitemap ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
+      html += '<dt>robots.txt</dt><dd>' + (details.has_robots_txt ? '<span class="ok">Yes</span>' : (technicalSkipped ? '<span class="text-muted">Skipped (timeout)</span>' : '<span class="missing">No</span>')) + '</dd>';
+      html += '<dt>Sitemap</dt><dd>' + (details.has_sitemap ? '<span class="ok">Yes</span>' : (technicalSkipped ? '<span class="text-muted">Skipped (timeout)</span>' : '<span class="missing">No</span>')) + '</dd>';
       html += '<dt>Images</dt><dd>' + (details.images_total != null ? details.images_total : '—') + '</dd>';
       html += '<dt>Images with alt</dt><dd>' + (details.images_with_alt != null ? details.images_with_alt : '—') + '</dd>';
       html += '<dt>Internal links</dt><dd>' + (details.internal_links != null ? details.internal_links : '—') + '</dd>';
