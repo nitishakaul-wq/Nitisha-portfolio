@@ -316,6 +316,37 @@
       padding: 8px 0;
     }
 
+    .help-cta {
+      background: linear-gradient(165deg, var(--surface) 0%, var(--surface-2) 100%);
+      border: 1px solid var(--accent-dim);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .help-cta p {
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .help-cta a {
+      display: inline-block;
+      padding: 12px 22px;
+      background: linear-gradient(135deg, var(--accent) 0%, #5558e3 100%);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      transition: transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+    }
+    .help-cta a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(99, 102, 241, 0.45);
+    }
+
     .details-card .details-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -406,6 +437,21 @@
     }
     .partial-notice svg { flex-shrink: 0; margin-top: 2px; }
 
+    .spa-notice {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: var(--accent-2);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      grid-column: 1 / -1;
+    }
+    .spa-notice svg { flex-shrink: 0; margin-top: 2px; }
+
     .details-section-title {
       font-size: 0.8rem;
       font-weight: 700;
@@ -419,9 +465,9 @@
 <body>
   <header class="hero">
     <h1>SEO Website Audit</h1>
-    <p>Get a free, instant analysis of your page: structure, technical SEO, and content signals.</p>
+    <p>Get a free, instant analysis of your page: structure, technical SEO, and content signals. Works with standard pages and article/blog URLs.</p>
     <form class="audit-form" id="form" onsubmit="return runAudit(event)">
-      <input type="url" id="url" placeholder="https://example.com" required>
+      <input type="url" id="url" placeholder="https://example.com or https://www.cult.fit/play" required>
       <button type="submit" class="btn-primary" id="submitBtn">Analyze</button>
     </form>
   </header>
@@ -514,6 +560,12 @@
         html += '<span>Some technical checks (robots.txt, sitemap) were skipped because the server didn’t respond in time. Page-level results below are complete.</span>';
         html += '</div>';
       }
+      if (details.likely_spa) {
+        html += '<div class="spa-notice">';
+        html += '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>';
+        html += '<span>This page may be built with JavaScript (e.g. React, Next.js). Results are based on the initial HTML only; content loaded by scripts may not be visible to this audit.</span>';
+        html += '</div>';
+      }
 
       html += '<div class="results-layout">';
 
@@ -552,6 +604,16 @@
       html += '<dt>Internal links</dt><dd>' + (details.internal_links != null ? details.internal_links : '—') + '</dd>';
       html += '<dt>External links</dt><dd>' + (details.external_links != null ? details.external_links : '—') + '</dd>';
       html += '<dt>Page size</dt><dd>' + pageSizeKb + ' KB</dd>';
+      if (details.og_type != null && details.og_type !== '') html += '<dt>og:type</dt><dd>' + escapeHtml(String(details.og_type)) + '</dd>';
+      if (details.is_article_type || details.has_article_tag || details.has_schema_article) {
+        var articleParts = [];
+        if (details.is_article_type) articleParts.push('og:article');
+        if (details.has_article_tag) articleParts.push('article tag');
+        if (details.has_schema_article) articleParts.push('Schema.org');
+        html += '<dt>Article signals</dt><dd>' + escapeHtml(articleParts.join(', ')) + '</dd>';
+        html += '<dt>Author meta</dt><dd>' + (details.has_author_meta ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
+        html += '<dt>Published time</dt><dd>' + (details.has_published_time ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
+      }
       html += '</dl></div>';
       html += '</div>';
 
@@ -564,6 +626,12 @@
         html += '</ul>';
       } else html += '<p class="no-rec">No critical issues. Keep up the good work.</p>';
       html += '</div>';
+      if (score < 70) {
+        html += '<div class="help-cta">';
+        html += '<p>Score a bit low? I can help fix your site’s SEO and get you a clean, fast website.</p>';
+        html += '<a href="https://services.easygoaitool.online/#contact">Contact me for help</a>';
+        html += '</div>';
+      }
       html += '</div>';
 
       html += '</div>';
