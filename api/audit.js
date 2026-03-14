@@ -15,6 +15,7 @@ export default async function handler(req, res) {
       breakdown: { structure: 0, technical_seo: 0, content_quality: 0 },
       details: {},
       recommendations: [],
+      technical_checks_skipped: false,
       ...overrides,
     });
 
@@ -80,10 +81,11 @@ export default async function handler(req, res) {
     const details = analyzePage(html, finalUrl, origin);
     details.page_size_bytes = pageSize;
 
-    const { has_robots_txt, has_sitemap } = await checkTechnicalUrls(
-      origin,
-      signal
-    );
+    const {
+      has_robots_txt,
+      has_sitemap,
+      technical_checks_skipped,
+    } = await checkTechnicalUrls(origin);
     details.has_robots_txt = has_robots_txt;
     details.has_sitemap = has_sitemap;
     details.is_https = finalUrl.startsWith("https://");
@@ -113,6 +115,7 @@ export default async function handler(req, res) {
       },
       details: sanitizeDetails(details),
       recommendations,
+      technical_checks_skipped: technical_checks_skipped || false,
     });
   } catch (error) {
     console.error("Audit error:", error);
@@ -202,33 +205,53 @@ function analyzePage(html, pageUrl, origin) {
   };
 }
 
-async function checkTechnicalUrls(origin, signal) {
-  if (!origin) return { has_robots_txt: false, has_sitemap: false };
-  let has_robots_txt = false;
-  let has_sitemap = false;
-  try {
-    const robotsRes = await fetch(origin + "/robots.txt", {
-      signal,
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; SEOAudit/2.0)" },
-    });
-    has_robots_txt = robotsRes.ok;
-    if (robotsRes.ok) {
-      const text = await robotsRes.text();
-          if (/sitemap\s*:\s*https?:\/\//i.test(text)) has_sitemap = true;
-    }
-  } catch (_) {}
+async function checkTechnicalUrls(origin) {
+  const out = {
+    has_robots_txt: false,
+    has_sitemap: false,
+    technical_checks_skipped: false,
+  };
+  if (!origin) return out;
 
-  if (!has_sitemap) {
-    try {
-      const sitemapRes = await fetch(origin + "/sitemap.xml", {
-        signal,
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; SEOAudit/2.0)" },
-      });
-      has_sitemap = sitemapRes.ok;
-    } catch (_) {}
+  const controller = new AbortController();
+  const timeoutMs = 3000;
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+    out.technical_checks_skipped = true;
+  }, timeoutMs);
+  const signal = controller.signal;
+  const headers = { "User-Agent": "Mozilla/5.0 (compatible; SEOAudit/2.0)" };
+
+  const robotsPromise = fetch(origin + "/robots.txt", { signal, headers })
+    .then((r) => (r.ok ? r.text() : ""))
+    .catch(() => "");
+  const sitemapPromise = fetch(origin + "/sitemap.xml", { signal, headers })
+    .then((r) => r.ok)
+    .catch(() => false);
+
+  try {
+    const [robotsSettled, sitemapSettled] = await Promise.allSettled([
+      robotsPromise,
+      sitemapPromise,
+    ]);
+    clearTimeout(timeoutId);
+
+    const robotsText =
+      robotsSettled.status === "fulfilled" ? robotsSettled.value : "";
+    const sitemapOk =
+      sitemapSettled.status === "fulfilled" ? sitemapSettled.value : false;
+
+    out.has_robots_txt = typeof robotsText === "string" && robotsText.length > 0;
+    out.has_sitemap =
+      sitemapOk ||
+      (typeof robotsText === "string" &&
+        /sitemap\s*:\s*https?:\/\//i.test(robotsText));
+  } catch (_) {
+    clearTimeout(timeoutId);
+    out.technical_checks_skipped = true;
   }
 
-  return { has_robots_txt, has_sitemap };
+  return out;
 }
 
 function scoreStructure(d) {
