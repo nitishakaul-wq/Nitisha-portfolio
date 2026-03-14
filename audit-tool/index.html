@@ -6,24 +6,30 @@
   <title>Free SEO Audit | Website Analyzer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0f0f14;
-      --surface: #18181f;
-      --surface-2: #22222c;
-      --border: #2d2d3a;
-      --text: #f4f4f6;
+      --bg: #0a0a0f;
+      --bg-subtle: #0d0d12;
+      --surface: #14141c;
+      --surface-2: #1c1c26;
+      --surface-3: #252530;
+      --border: #2a2a38;
+      --text: #f4f4f8;
       --text-muted: #8b8b9e;
       --accent: #6366f1;
-      --accent-dim: rgba(99, 102, 241, 0.15);
+      --accent-2: #818cf8;
+      --accent-dim: rgba(99, 102, 241, 0.2);
       --success: #22c55e;
       --success-dim: rgba(34, 197, 94, 0.15);
       --warning: #eab308;
+      --warning-dim: rgba(234, 179, 8, 0.15);
       --danger: #ef4444;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-lg: 24px;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      --glow: 0 0 60px rgba(99, 102, 241, 0.15);
     }
     * { box-sizing: border-box; }
     body {
@@ -33,40 +39,34 @@
       color: var(--text);
       line-height: 1.5;
       min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
+        radial-gradient(ellipse 60% 40% at 0% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 45%);
     }
 
     .hero {
-      background: linear-gradient(135deg, #1a1a24 0%, #0f0f14 50%, #15151d 100%);
-      padding: 48px 24px 56px;
+      padding: 40px 24px 48px;
       text-align: center;
       position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse 40% 40% at 50% 0%, var(--accent-dim) 0%, transparent 50%);
-      pointer-events: none;
     }
     .hero h1 {
-      font-size: clamp(1.75rem, 4vw, 2.25rem);
-      font-weight: 700;
-      margin: 0 0 8px;
-      letter-spacing: -0.02em;
-      position: relative;
+      font-size: clamp(1.85rem, 4.5vw, 2.5rem);
+      font-weight: 800;
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+      background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.85) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .hero p {
       color: var(--text-muted);
-      font-size: 1rem;
-      margin: 0 0 32px;
-      max-width: 480px;
+      font-size: 1.05rem;
+      margin: 0 0 28px;
+      max-width: 520px;
       margin-left: auto;
       margin-right: auto;
-      position: relative;
     }
     .audit-form {
       display: flex;
@@ -74,19 +74,19 @@
       gap: 12px;
       justify-content: center;
       align-items: center;
-      max-width: 560px;
+      max-width: 580px;
       margin: 0 auto;
-      position: relative;
     }
     .audit-form input {
       flex: 1;
-      min-width: 200px;
-      padding: 14px 18px;
-      background: var(--surface-2);
+      min-width: 220px;
+      padding: 16px 20px;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
     .audit-form input::placeholder { color: var(--text-muted); }
     .audit-form input:focus {
@@ -95,163 +95,241 @@
       box-shadow: 0 0 0 3px var(--accent-dim);
     }
     .btn-primary {
-      padding: 14px 24px;
-      background: var(--accent);
+      padding: 16px 28px;
+      background: linear-gradient(135deg, var(--accent) 0%, #5558e3 100%);
       color: white;
       border: none;
       border-radius: var(--radius-sm);
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 1rem;
       cursor: pointer;
-      transition: transform 0.1s, box-shadow 0.2s;
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
     }
-    .btn-primary:hover { box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4); }
-    .btn-primary:active { transform: scale(0.98); }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+    .btn-primary:hover { box-shadow: 0 6px 28px rgba(99, 102, 241, 0.45); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
     .container {
-      max-width: 720px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 24px 20px 48px;
+      padding: 24px 24px 56px;
     }
 
-    .loading-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      text-align: center;
+    .results-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
     }
-    .loading-step {
+    @media (max-width: 900px) {
+      .results-layout { grid-template-columns: 1fr; }
+    }
+
+    .results-left {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      color: var(--text-muted);
-      font-size: 0.95rem;
+      flex-direction: column;
+      gap: 20px;
     }
-    .loading-step:last-child { margin-bottom: 0; }
-    .loading-step.active { color: var(--accent); font-weight: 500; }
-    .loading-step.done { color: var(--success); }
-    .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+    .results-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 24px;
     }
-    .loading-step.done .spinner { display: none; }
-    .loading-step.done::before {
-      content: '';
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2322c55e'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") no-repeat center;
-      background-size: contain;
+    @media (max-width: 900px) {
+      .results-right { position: static; }
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
     .score-hero {
-      background: linear-gradient(145deg, var(--surface) 0%, var(--surface-2) 100%);
+      background: linear-gradient(165deg, var(--surface) 0%, var(--surface-2) 100%);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      margin-bottom: 24px;
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
       text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .score-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0.8;
+    }
+    .score-circle-wrap {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 12px;
     }
     .score-circle {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 16px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--surface-2) 0);
+      background: conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--surface-3) 0);
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 0 0 4px var(--surface-2), var(--glow);
     }
+    .score-circle.score-good { background: conic-gradient(var(--success) calc(var(--pct) * 1%), var(--surface-3) 0); }
+    .score-circle.score-warn { background: conic-gradient(var(--warning) calc(var(--pct) * 1%), var(--surface-3) 0); }
+    .score-circle.score-low { background: conic-gradient(var(--danger) calc(var(--pct) * 1%), var(--surface-3) 0); }
     .score-circle-inner {
-      width: 96px;
-      height: 96px;
+      width: 112px;
+      height: 112px;
       border-radius: 50%;
       background: var(--surface);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 1.75rem;
-      font-weight: 700;
     }
-    .score-label { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+    .score-circle-inner .num {
+      font-size: 2.25rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .score-circle-inner .label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .score-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .score-badge.good { background: var(--success-dim); color: var(--success); }
+    .score-badge.warn { background: var(--warning-dim); color: var(--warning); }
+    .score-badge.low { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
     .breakdown {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
     .breakdown-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 20px;
+      padding: 16px;
+      transition: border-color 0.2s, transform 0.2s;
     }
+    .breakdown-card:hover { border-color: var(--surface-3); transform: translateY(-2px); }
     .breakdown-card h4 {
-      margin: 0 0 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      margin: 0 0 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
     .breakdown-card .value {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 700;
       margin-bottom: 8px;
     }
     .progress-bar {
       height: 6px;
-      background: var(--surface-2);
+      background: var(--surface-3);
       border-radius: 3px;
       overflow: hidden;
     }
     .progress-bar span {
       display: block;
       height: 100%;
-      background: var(--accent);
       border-radius: 3px;
-      transition: width 0.5s ease;
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .progress-bar.good span { background: var(--success); }
     .progress-bar.warn span { background: var(--warning); }
     .progress-bar.bad span { background: var(--danger); }
+    .progress-bar span.default { background: var(--accent); }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 16px;
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+    }
+    .card.recommendations-card {
+      border-left: 4px solid var(--accent);
     }
     .card h3 {
-      margin: 0 0 16px;
-      font-size: 1rem;
-      font-weight: 600;
+      margin: 0 0 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      color: var(--text);
     }
-    .card h3 svg { flex-shrink: 0; }
-    .details-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px 20px;
+    .card h3 svg { flex-shrink: 0; opacity: 0.9; }
+    .recommendations-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .recommendations-list::-webkit-scrollbar { width: 6px; }
+    .recommendations-list::-webkit-scrollbar-track { background: var(--surface-2); border-radius: 3px; }
+    .recommendations-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .recommendations-list li {
+      padding: 10px 0 10px 28px;
+      position: relative;
       font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      border-bottom: 1px solid var(--border);
+    }
+    .recommendations-list li:last-child { border-bottom: none; }
+    .recommendations-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--warning);
+    }
+    .no-rec {
+      color: var(--success);
+      font-size: 0.95rem;
+      padding: 8px 0;
+    }
+
+    .details-card .details-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px 20px;
+      font-size: 0.85rem;
+    }
+    @media (max-width: 700px) {
+      .details-card .details-grid { grid-template-columns: repeat(2, 1fr); }
     }
     .details-grid dt {
       color: var(--text-muted);
       margin: 0;
       font-weight: 500;
+      font-size: 0.8rem;
     }
     .details-grid dd {
       margin: 2px 0 0;
@@ -261,49 +339,80 @@
     .details-grid dd.missing { color: var(--danger); }
     .details-grid dd .text-muted { color: var(--text-muted); }
 
-    .recommendations ul {
-      margin: 0;
-      padding-left: 20px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+    .loading-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
+      box-shadow: var(--shadow);
     }
-    .recommendations li { margin-bottom: 8px; }
-    .recommendations li:last-child { margin-bottom: 0; }
-    .no-rec { color: var(--success); font-style: italic; }
+    .loading-step {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+    .loading-step:last-child { margin-bottom: 0; }
+    .loading-step.active { color: var(--accent); font-weight: 600; }
+    .loading-step.done { color: var(--success); }
+    .spinner {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .loading-step.done .spinner { display: none; }
+    .loading-step.done::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2322c55e'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") no-repeat center;
+      background-size: contain;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-hint { margin-top: 20px; font-size: 0.82rem; color: var(--text-muted); }
 
     .error-msg {
       background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(239, 68, 68, 0.35);
       border-radius: var(--radius-sm);
-      padding: 16px;
+      padding: 20px;
       color: #fca5a5;
       text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
     }
-
-    .loading-hint {
-      margin-top: 16px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
     .partial-notice {
       background: rgba(234, 179, 8, 0.12);
       border: 1px solid rgba(234, 179, 8, 0.35);
       border-radius: var(--radius-sm);
-      padding: 12px 16px;
+      padding: 14px 18px;
       margin-bottom: 20px;
       font-size: 0.9rem;
       color: #facc15;
       display: flex;
       align-items: flex-start;
-      gap: 10px;
+      gap: 12px;
+      grid-column: 1 / -1;
     }
     .partial-notice svg { flex-shrink: 0; margin-top: 2px; }
 
-    @media (max-width: 600px) {
-      .hero { padding: 32px 16px 40px; }
-      .audit-form { flex-direction: column; align-items: stretch; }
-      .audit-form input { min-width: 0; }
+    .details-section-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
     }
   </style>
 </head>
@@ -339,8 +448,7 @@
         if (i < activeIndex) cls += ' done';
         else if (i === activeIndex) cls += ' active';
         html += '<div class="' + cls + '">';
-        if (i < activeIndex) html += '<span class="spinner"></span>';
-        else html += '<span class="spinner"></span>';
+        html += '<span class="spinner"></span>';
         html += '<span>' + escapeHtml(label) + '</span></div>';
       });
       html += '<p class="loading-hint">Sites without robots.txt or sitemap usually finish in a few seconds.</p>';
@@ -369,6 +477,22 @@
       return 'bad';
     }
 
+    function scoreBadgeClass(score) {
+      if (score >= 70) return 'good';
+      if (score >= 40) return 'warn';
+      return 'low';
+    }
+    function scoreCircleClass(score) {
+      if (score >= 70) return 'score-good';
+      if (score >= 40) return 'score-warn';
+      return 'score-low';
+    }
+    function scoreBadgeText(score) {
+      if (score >= 70) return 'Good';
+      if (score >= 40) return 'Needs work';
+      return 'Improve';
+    }
+
     function renderResult(data) {
       var score = data.seo_score != null ? Math.max(0, Math.min(100, data.seo_score)) : 0;
       var b = data.breakdown || {};
@@ -390,48 +514,59 @@
         html += '<span>Some technical checks (robots.txt, sitemap) were skipped because the server didn’t respond in time. Page-level results below are complete.</span>';
         html += '</div>';
       }
+
+      html += '<div class="results-layout">';
+
+      html += '<div class="results-left">';
       html += '<div class="score-hero">';
-      html += '<div class="score-circle" style="--pct:' + score + '">';
-      html += '<div class="score-circle-inner">' + score + '</div></div>';
-      html += '<div class="score-label">SEO Score</div></div>';
+      html += '<div class="score-circle-wrap"><div class="score-circle ' + scoreCircleClass(score) + '" style="--pct:' + score + '">';
+      html += '<div class="score-circle-inner"><span class="num">' + score + '</span><span class="label">Score</span></div></div></div>';
+      html += '<span class="score-badge ' + scoreBadgeClass(score) + '">' + scoreBadgeText(score) + '</span>';
+      html += '</div>';
 
       html += '<div class="breakdown">';
       html += '<div class="breakdown-card"><h4>Structure</h4><div class="value">' + structure + '/30</div>';
       html += '<div class="progress-bar ' + progressClass(structure, 30) + '"><span style="width:' + Math.min(100, (structure / 30) * 100) + '%"></span></div></div>';
-      html += '<div class="breakdown-card"><h4>Technical SEO</h4><div class="value">' + technical + '/20</div>';
+      html += '<div class="breakdown-card"><h4>Technical</h4><div class="value">' + technical + '/20</div>';
       html += '<div class="progress-bar ' + progressClass(technical, 20) + '"><span style="width:' + Math.min(100, (technical / 20) * 100) + '%"></span></div></div>';
-      html += '<div class="breakdown-card"><h4>Content Quality</h4><div class="value">' + content + '/50</div>';
+      html += '<div class="breakdown-card"><h4>Content</h4><div class="value">' + content + '/50</div>';
       html += '<div class="progress-bar ' + progressClass(content, 50) + '"><span style="width:' + Math.min(100, (content / 50) * 100) + '%"></span></div></div>';
       html += '</div>';
 
-      html += '<div class="card"><h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Page details</h3>';
+      html += '<div class="card details-card">';
+      html += '<div class="details-section-title">Page details</div>';
       html += '<dl class="details-grid">';
       html += '<dt>Title</dt><dd>' + title + ' <span class="' + (details.title_present ? 'ok">✓' : 'missing">✗') + '</span></dd>';
-      html += '<dt>Title length</dt><dd>' + (details.title_length != null ? details.title_length : '—') + ' chars</dd>';
-      html += '<dt>Meta description</dt><dd>' + (details.meta_description_present ? '<span class="ok">Yes</span>' : '<span class="missing">Missing</span>') + '</dd>';
-      html += '<dt>Meta desc length</dt><dd>' + (details.meta_description_length != null ? details.meta_description_length : '—') + ' chars</dd>';
-      html += '<dt>H1 count</dt><dd>' + (details.h1_count != null ? details.h1_count : '—') + '</dd>';
-      html += '<dt>H2 count</dt><dd>' + (details.h2_count != null ? details.h2_count : '—') + '</dd>';
+      html += '<dt>Title length</dt><dd>' + (details.title_length != null ? details.title_length : '—') + '</dd>';
+      html += '<dt>Meta description</dt><dd>' + (details.meta_description_present ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
+      html += '<dt>Meta length</dt><dd>' + (details.meta_description_length != null ? details.meta_description_length : '—') + '</dd>';
+      html += '<dt>H1</dt><dd>' + (details.h1_count != null ? details.h1_count : '—') + '</dd>';
+      html += '<dt>H2</dt><dd>' + (details.h2_count != null ? details.h2_count : '—') + '</dd>';
       html += '<dt>HTTPS</dt><dd>' + (details.is_https ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
       html += '<dt>Canonical</dt><dd>' + (details.has_canonical ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
       html += '<dt>Viewport</dt><dd>' + (details.has_viewport ? '<span class="ok">Yes</span>' : '<span class="missing">No</span>') + '</dd>';
-      html += '<dt>robots.txt</dt><dd>' + (details.has_robots_txt ? '<span class="ok">Yes</span>' : (technicalSkipped ? '<span class="text-muted">Skipped (timeout)</span>' : '<span class="missing">No</span>')) + '</dd>';
-      html += '<dt>Sitemap</dt><dd>' + (details.has_sitemap ? '<span class="ok">Yes</span>' : (technicalSkipped ? '<span class="text-muted">Skipped (timeout)</span>' : '<span class="missing">No</span>')) + '</dd>';
+      html += '<dt>robots.txt</dt><dd>' + (details.has_robots_txt ? '<span class="ok">Yes</span>' : (technicalSkipped ? '<span class="text-muted">Skipped</span>' : '<span class="missing">No</span>')) + '</dd>';
+      html += '<dt>Sitemap</dt><dd>' + (details.has_sitemap ? '<span class="ok">Yes</span>' : (technicalSkipped ? '<span class="text-muted">Skipped</span>' : '<span class="missing">No</span>')) + '</dd>';
       html += '<dt>Images</dt><dd>' + (details.images_total != null ? details.images_total : '—') + '</dd>';
-      html += '<dt>Images with alt</dt><dd>' + (details.images_with_alt != null ? details.images_with_alt : '—') + '</dd>';
+      html += '<dt>With alt</dt><dd>' + (details.images_with_alt != null ? details.images_with_alt : '—') + '</dd>';
       html += '<dt>Internal links</dt><dd>' + (details.internal_links != null ? details.internal_links : '—') + '</dd>';
       html += '<dt>External links</dt><dd>' + (details.external_links != null ? details.external_links : '—') + '</dd>';
       html += '<dt>Page size</dt><dd>' + pageSizeKb + ' KB</dd>';
       html += '</dl></div>';
+      html += '</div>';
 
-      html += '<div class="card recommendations"><h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Recommendations</h3>';
+      html += '<div class="results-right">';
+      html += '<div class="card recommendations-card">';
+      html += '<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Recommendations</h3>';
       if (recs.length) {
-        html += '<ul>';
+        html += '<ul class="recommendations-list">';
         recs.forEach(function (r) { html += '<li>' + escapeHtml(String(r)) + '</li>'; });
         html += '</ul>';
       } else html += '<p class="no-rec">No critical issues. Keep up the good work.</p>';
       html += '</div>';
+      html += '</div>';
 
+      html += '</div>';
       return html;
     }
 
