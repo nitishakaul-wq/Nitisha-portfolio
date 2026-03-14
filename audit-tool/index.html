@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free SEO Audit | Website Analyzer</title>
+  <title>Free SEO Audit | Website Analyzer | EasyGoAI</title>
+  <meta name="description" content="Free, instant SEO audit for any webpage. Check structure, technical SEO, and content. Get actionable recommendations to improve your site. From EasyGoAI.">
+  <link rel="canonical" href="https://services.easygoaitool.online/audit-tool/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -67,6 +69,34 @@
       max-width: 520px;
       margin-left: auto;
       margin-right: auto;
+    }
+    .hero-links {
+      margin: 20px 0 0;
+      font-size: 0.9rem;
+    }
+    .hero-links a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+    .hero-links a:hover { text-decoration: underline; }
+    .audit-intro {
+      max-width: 560px;
+      margin: 32px auto 0;
+      padding: 20px 0 0;
+      border-top: 1px solid var(--border);
+      text-align: left;
+    }
+    .audit-intro h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 16px 0 6px;
+      color: var(--text);
+    }
+    .audit-intro h2:first-child { margin-top: 0; }
+    .audit-intro p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
     }
     .audit-form {
       display: flex;
@@ -470,6 +500,18 @@
       <input type="url" id="url" placeholder="https://example.com or https://www.cult.fit/play" required>
       <button type="submit" class="btn-primary" id="submitBtn">Analyze</button>
     </form>
+    <p class="hero-links">
+      <a href="https://services.easygoaitool.online/">EasyGoAI home</a> ·
+      <a href="https://services.easygoaitool.online/#contact">Contact</a> ·
+      <a href="https://services.easygoaitool.online/#services">Website design</a> ·
+      <a href="https://developers.google.com/search/docs" target="_blank" rel="noopener">SEO basics</a>
+    </p>
+    <section class="audit-intro" aria-labelledby="how-heading">
+      <h2 id="how-heading">How it works</h2>
+      <p>Enter any webpage URL and we analyze title, meta description, headings, links, and technical SEO.</p>
+      <h2 id="what-heading">What we check</h2>
+      <p>Structure (title, meta, H1), technical (HTTPS, canonical, viewport), and content (images, links, length).</p>
+    </section>
   </header>
 
   <main class="container" id="results"></main>
