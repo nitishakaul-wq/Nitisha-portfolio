@@ -7,31 +7,44 @@
 <title>Free AI Website Audit | EasyGoAI</title>
 
 <style>
+
 body{
 font-family:Arial, sans-serif;
 background:#0a0a0f;
-color:white;
+color:#f1f1f4;
 text-align:center;
 padding:40px;
 }
 
+h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.tag{
+color:#9ca3af;
+margin-bottom:30px;
+}
+
 input{
-padding:12px;
-width:320px;
-border-radius:6px;
+padding:14px;
+width:350px;
+border-radius:8px;
 border:1px solid #333;
 background:#111;
 color:white;
+font-size:15px;
 }
 
 button{
-padding:12px 18px;
+padding:14px 22px;
 background:#6366f1;
 border:none;
-border-radius:6px;
+border-radius:8px;
 color:white;
 cursor:pointer;
 margin-left:10px;
+font-weight:600;
 }
 
 button:hover{
@@ -40,23 +53,86 @@ background:#4f46e5;
 
 #results{
 margin-top:40px;
-max-width:700px;
+max-width:900px;
 margin-left:auto;
 margin-right:auto;
 text-align:left;
 }
 
-.score{
-font-size:20px;
-margin-bottom:10px;
+.progress{
+background:#111;
+padding:16px;
+border-radius:8px;
+margin-top:20px;
+}
+
+.card-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.score-card{
+background:#111;
+padding:20px;
+border-radius:10px;
+text-align:center;
+}
+
+.score-value{
+font-size:32px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.score-label{
+font-size:13px;
+color:#9ca3af;
 }
 
 .rec{
 background:#111;
-padding:10px;
-margin-top:8px;
+padding:12px;
+margin-top:10px;
 border-left:4px solid #6366f1;
+border-radius:4px;
 }
+
+.summary{
+background:#111;
+padding:18px;
+border-radius:8px;
+margin-top:20px;
+}
+
+.quickwins{
+background:#111;
+padding:18px;
+border-radius:8px;
+margin-top:20px;
+}
+
+.lead{
+background:#6366f1;
+padding:25px;
+border-radius:12px;
+margin-top:30px;
+text-align:center;
+}
+
+.lead input{
+width:260px;
+margin-top:10px;
+}
+
+.reset{
+margin-top:20px;
+display:inline-block;
+cursor:pointer;
+color:#6366f1;
+}
+
 </style>
 
 </head>
@@ -64,7 +140,7 @@ border-left:4px solid #6366f1;
 <body>
 
 <h1>Free AI Website Audit</h1>
-<p>Enter a website to analyze SEO, design and performance.</p>
+<p class="tag">Analyze SEO, speed and design instantly.</p>
 
 <input id="url" placeholder="https://example.com">
 <button onclick="runAudit()">Audit Website</button>
@@ -73,42 +149,119 @@ border-left:4px solid #6366f1;
 
 <script>
 
+function scoreColor(score){
+if(score>=80) return "#22c55e";
+if(score>=50) return "#f59e0b";
+return "#ef4444";
+}
+
+function verdict(score){
+if(score>=80) return "Your website is performing well but still has a few areas for improvement.";
+if(score>=60) return "Your website is decent but has several issues affecting SEO and performance.";
+return "Your website has major optimization issues affecting visibility and user experience.";
+}
+
 async function runAudit(){
 
-const url=document.getElementById("url").value;
+const url=document.getElementById("url").value.trim();
 const results=document.getElementById("results");
 
-results.innerHTML="Analyzing website...";
+if(!url){
+alert("Please enter a website URL");
+return;
+}
+
+results.innerHTML=`
+<div class="progress">
+<p>🔍 Checking website accessibility...</p>
+<p>📊 Analyzing SEO structure...</p>
+<p>📱 Reviewing design and mobile layout...</p>
+<p>🤖 Generating AI recommendations...</p>
+</div>
+`;
 
 try{
 
 const res=await fetch("/api/audit",{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({url})
 });
 
 const data=await res.json();
 
 results.innerHTML=`
-<div class="score">SEO Score: ${data.seo_score}</div>
-<div class="score">Speed Score: ${data.speed_score}</div>
-<div class="score">Design Score: ${data.design_score}</div>
-<div class="score">Overall Score: ${data.overall_score}</div>
 
-<h3>Recommendations</h3>
+<div class="card-grid">
 
-${data.recommendations.map(r=>`<div class="rec">${r}</div>`).join("")}
+<div class="score-card">
+<div class="score-value" style="color:${scoreColor(data.seo_score)}">${data.seo_score}</div>
+<div class="score-label">SEO Score</div>
+</div>
+
+<div class="score-card">
+<div class="score-value" style="color:${scoreColor(data.speed_score)}">${data.speed_score}</div>
+<div class="score-label">Speed Score</div>
+</div>
+
+<div class="score-card">
+<div class="score-value" style="color:${scoreColor(data.design_score)}">${data.design_score}</div>
+<div class="score-label">Design Score</div>
+</div>
+
+<div class="score-card">
+<div class="score-value" style="color:${scoreColor(data.overall_score)}">${data.overall_score}</div>
+<div class="score-label">Overall Score</div>
+</div>
+
+</div>
+
+<div class="summary">
+<h3>Audit Summary</h3>
+<p>${verdict(data.overall_score)}</p>
+</div>
+
+<div class="quickwins">
+<h3>Quick Fix Potential</h3>
+<ul>
+<li>Add meta description</li>
+<li>Improve heading structure</li>
+<li>Compress large images</li>
+</ul>
+</div>
+
+<h3 style="margin-top:25px">Recommendations</h3>
+
+${data.recommendations.map(r=>`
+<div class="rec">
+<strong>${r}</strong>
+<p>Improving this area can help increase search visibility and user experience.</p>
+</div>
+`).join("")}
+
+<div class="lead">
+<h3>Want a Full Website Audit?</h3>
+<p>Get a detailed report with SEO, speed and conversion improvements.</p>
+<input placeholder="Enter your email">
+<br>
+<button style="margin-top:10px">Send Full Report</button>
+</div>
+
+<div class="reset" onclick="resetTool()">Audit another website</div>
+
 `;
 
 }catch(e){
 
-results.innerHTML="Audit failed. Try again.";
+results.innerHTML="Audit failed. Please try again.";
 
 }
 
+}
+
+function resetTool(){
+document.getElementById("url").value="";
+document.getElementById("results").innerHTML="";
 }
 
 </script>
