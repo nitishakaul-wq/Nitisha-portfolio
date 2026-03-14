@@ -98,6 +98,15 @@
       font-weight: 300;
       user-select: none;
     }
+    .audit-footer {
+      margin-top: 48px;
+      padding: 24px 24px 32px;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .audit-footer .hero-links {
+      margin-top: 0;
+    }
     .audit-intro {
       max-width: 560px;
       margin: 32px auto 0;
@@ -519,15 +528,6 @@
       <input type="url" id="url" placeholder="https://example.com or https://www.cult.fit/play" required>
       <button type="submit" class="btn-primary" id="submitBtn">Analyze</button>
     </form>
-    <nav class="hero-links" aria-label="Quick links">
-      <a href="https://services.easygoaitool.online/">EasyGoAI home</a>
-      <span class="sep">·</span>
-      <a href="https://services.easygoaitool.online/#contact">Contact</a>
-      <span class="sep">·</span>
-      <a href="https://services.easygoaitool.online/#services">Website design</a>
-      <span class="sep">·</span>
-      <a href="https://developers.google.com/search/docs" target="_blank" rel="noopener">SEO basics</a>
-    </nav>
     <section class="audit-intro" aria-labelledby="how-heading">
       <h2 id="how-heading">How it works</h2>
       <p>Enter any webpage URL and we analyze title, meta description, headings, links, and technical SEO.</p>
@@ -537,6 +537,18 @@
   </header>
 
   <main class="container" id="results"></main>
+
+  <footer class="audit-footer">
+    <nav class="hero-links" aria-label="Quick links">
+      <a href="https://services.easygoaitool.online/">EasyGoAI home</a>
+      <span class="sep">·</span>
+      <a href="https://services.easygoaitool.online/#contact">Contact</a>
+      <span class="sep">·</span>
+      <a href="https://services.easygoaitool.online/#services">Website design</a>
+      <span class="sep">·</span>
+      <a href="https://developers.google.com/search/docs" target="_blank" rel="noopener">SEO basics</a>
+    </nav>
+  </footer>
 
   <script>
     var loadingSteps = [
