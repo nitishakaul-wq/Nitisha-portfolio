@@ -1,58 +1,117 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free AI Website Audit | EasyGoAI</title>
+
+<style>
+body{
+font-family:Arial, sans-serif;
+background:#0a0a0f;
+color:white;
+text-align:center;
+padding:40px;
+}
+
+input{
+padding:12px;
+width:320px;
+border-radius:6px;
+border:1px solid #333;
+background:#111;
+color:white;
+}
+
+button{
+padding:12px 18px;
+background:#6366f1;
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer;
+margin-left:10px;
+}
+
+button:hover{
+background:#4f46e5;
+}
+
+#results{
+margin-top:40px;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
+text-align:left;
+}
+
+.score{
+font-size:20px;
+margin-bottom:10px;
+}
+
+.rec{
+background:#111;
+padding:10px;
+margin-top:8px;
+border-left:4px solid #6366f1;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Free AI Website Audit</h1>
+<p>Enter a website to analyze SEO, design and performance.</p>
+
+<input id="url" placeholder="https://example.com">
+<button onclick="runAudit()">Audit Website</button>
+
+<div id="results"></div>
+
 <script>
 
-const API_URL = "/api/audit";
+async function runAudit(){
 
-async function startAudit() {
+const url=document.getElementById("url").value;
+const results=document.getElementById("results");
 
-  let url = document.getElementById("websiteUrl").value.trim();
-  const btn = document.getElementById("auditBtn");
-  const errorDiv = document.getElementById("error");
-  const loadingDiv = document.getElementById("loading");
-  const resultsDiv = document.getElementById("results");
+results.innerHTML="Analyzing website...";
 
-  errorDiv.classList.remove("show");
-  errorDiv.textContent = "";
+try{
 
-  if (!url) {
-    errorDiv.textContent = "Please enter a website URL";
-    errorDiv.classList.add("show");
-    return;
-  }
+const res=await fetch("/api/audit",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({url})
+});
 
-  if (!url.startsWith("http")) {
-    url = "https://" + url;
-  }
+const data=await res.json();
 
-  btn.disabled = true;
-  loadingDiv.style.display = "flex";
+results.innerHTML=`
+<div class="score">SEO Score: ${data.seo_score}</div>
+<div class="score">Speed Score: ${data.speed_score}</div>
+<div class="score">Design Score: ${data.design_score}</div>
+<div class="score">Overall Score: ${data.overall_score}</div>
 
-  try {
+<h3>Recommendations</h3>
 
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ url })
-    });
+${data.recommendations.map(r=>`<div class="rec">${r}</div>`).join("")}
+`;
 
-    const data = await response.json();
+}catch(e){
 
-    if (!response.ok) {
-      throw new Error(data.error || "Audit failed");
-    }
+results.innerHTML="Audit failed. Try again.";
 
-    displayResults(data);
+}
 
-  } catch (error) {
-
-    errorDiv.textContent = "Audit failed. Please try again.";
-    errorDiv.classList.add("show");
-
-  }
-
-  btn.disabled = false;
-  loadingDiv.style.display = "none";
 }
 
 </script>
+
+</body>
+</html>
