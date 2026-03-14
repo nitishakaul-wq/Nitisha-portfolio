@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -82,6 +83,7 @@ text-decoration:none;
 font-weight:600;
 margin:6px;
 display:inline-block;
+transition:all .2s ease;
 }
 
 .btn-primary{
@@ -89,9 +91,17 @@ background:#6366f1;
 color:white;
 }
 
+.btn-primary:hover{
+background:#5254e0;
+}
+
 .btn-secondary{
 background:#1c1c28;
 color:white;
+}
+
+.btn-secondary:hover{
+background:#2a2a3a;
 }
 
 /* TRUST */
@@ -139,6 +149,13 @@ border-radius:10px;
 padding:22px;
 border:1px solid rgba(255,255,255,0.05);
 text-align:center;
+transition:all .2s ease;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-4px);
+border:1px solid #6366f1;
 }
 
 .card img{
@@ -151,6 +168,20 @@ margin-bottom:10px;
 .card strong{
 display:block;
 margin-bottom:5px;
+}
+
+/* clickable card wrapper */
+
+.card-link{
+text-decoration:none;
+color:inherit;
+display:block;
+}
+
+/* highlight audit card */
+
+.audit-highlight{
+border:1px solid rgba(99,102,241,.5);
 }
 
 /* DEMO */
@@ -338,11 +369,19 @@ Simple modern websites that help customers find and contact your business online
 <p>Optimized pages that load quickly.</p>
 </div>
 
-<div class="card">
+<a href="/audit-tool/" class="card-link">
+
+<div class="card audit-highlight">
+
 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200">
-<strong>Free Website Audit</strong>
-<p>AI-powered analysis of your current website.</p>
+
+<strong>Free Website SEO Audit</strong>
+
+<p>Analyze your website SEO and technical health instantly.</p>
+
 </div>
+
+</a>
 
 </div>
 
