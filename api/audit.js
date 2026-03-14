@@ -1,153 +1,154 @@
 export default async function handler(req, res) {
+
 try {
 
-```
 if (req.method !== "POST") {
-  return res.status(200).json({ message: "API running" });
+return res.status(200).json({ message: "Audit API running" })
 }
 
-let { url } = req.body;
+let { url } = req.body
 
 if (!url) {
-  return res.status(400).json({ error: "URL required" });
+return res.status(400).json({ error: "URL required" })
 }
 
 // normalize url
+url = url.trim()
+
 if (!url.startsWith("http")) {
-  url = "https://" + url;
+url = "https://" + url
 }
 
-const start = Date.now();
+// measure load time
+const start = Date.now()
+
+let html = ""
+
+try {
 
 const response = await fetch(url, {
-  headers: {
-    "User-Agent": "Mozilla/5.0"
-  },
-  redirect: "follow"
-});
+headers: {
+"User-Agent":
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+},
+redirect: "follow"
+})
 
-const html = await response.text();
+html = await response.text()
 
-const loadTime = Date.now() - start;
+} catch (err) {
 
-// -------- HTML CHECKS --------
-
-const titleMatch = html.match(/<title>(.*?)<\/title>/i);
-const metaDesc = html.match(/name=["']description["']/i);
-
-const h1 = (html.match(/<h1/gi) || []).length;
-const images = (html.match(/<img/gi) || []).length;
-const alt = (html.match(/alt=/gi) || []).length;
-const links = (html.match(/<a\s+href/gi) || []).length;
-
-const viewport = html.includes("viewport");
-
-// -------- ROBOTS CHECK --------
-
-let robots = false;
-
-try {
-  const r = await fetch(new URL("/robots.txt", url));
-  if (r.status === 200) robots = true;
-} catch {}
-
-// -------- SITEMAP CHECK --------
-
-let sitemap = false;
-
-try {
-  const s = await fetch(new URL("/sitemap.xml", url));
-  if (s.status === 200) sitemap = true;
-} catch {}
-
-// -------- SCORE CALCULATION --------
-
-let seo = 0;
-let speed = 70;
-let design = 70;
-
-if (titleMatch) seo += 20;
-if (metaDesc) seo += 20;
-
-if (h1 === 1) seo += 20;
-else if (h1 > 1) seo += 10;
-
-if (viewport) seo += 10;
-
-if (images > 0) {
-  const ratio = alt / images;
-  seo += Math.round(ratio * 20);
+// if site blocks fetch
+return res.status(200).json({
+seo_score: 40,
+speed_score: 60,
+design_score: 60,
+overall_score: 53,
+recommendations: [
+"Website blocked automated audit request",
+"Server may block bots or security rules",
+"Try another website"
+]
+})
 }
 
-if (links > 5) seo += 10;
+const loadTime = Date.now() - start
 
-if (robots) seo += 5;
-if (sitemap) seo += 5;
+// HTML checks
+const title = html.match(/<title>(.*?)</title>/i)
+const meta = html.match(/name=["']description["']/i)
 
-if (seo > 100) seo = 100;
+const h1 = (html.match(/<h1/gi) || []).length
+const imgs = (html.match(/<img/gi) || []).length
+const alts = (html.match(/alt=/gi) || []).length
+const links = (html.match(/<a\s+href/gi) || []).length
+const viewport = html.includes("viewport")
 
-const overall = Math.round((seo + speed + design) / 3);
+// robots check
+let robots = false
 
-// -------- RECOMMENDATIONS --------
+try {
+const r = await fetch(new URL("/robots.txt", url))
+if (r.status === 200) robots = true
+} catch {}
 
-const recommendations = [];
+// sitemap check
+let sitemap = false
 
-if (!titleMatch)
-  recommendations.push("Add a title tag between 50-60 characters");
+try {
+const s = await fetch(new URL("/sitemap.xml", url))
+if (s.status === 200) sitemap = true
+} catch {}
 
-if (!metaDesc)
-  recommendations.push("Add a meta description of 150-160 characters");
+// scoring
+let seo = 0
+let speed = 70
+let design = 70
 
-if (h1 !== 1)
-  recommendations.push("Use exactly one H1 tag for proper SEO structure");
+if (title) seo += 20
+if (meta) seo += 20
 
-if (images > alt)
-  recommendations.push("Add alt text to images for accessibility and SEO");
+if (h1 === 1) seo += 20
+else if (h1 > 1) seo += 10
 
-if (!viewport)
-  recommendations.push("Add mobile viewport meta tag");
+if (viewport) seo += 10
 
-if (!robots)
-  recommendations.push("Create a robots.txt file");
+if (imgs > 0) {
+const ratio = alts / imgs
+seo += Math.round(ratio * 20)
+}
 
-if (!sitemap)
-  recommendations.push("Add sitemap.xml to help search engines");
+if (links > 5) seo += 10
+if (robots) seo += 5
+if (sitemap) seo += 5
 
-if (loadTime > 2000)
-  recommendations.push("Improve page load speed");
+if (seo > 100) seo = 100
+
+const overall = Math.round((seo + speed + design) / 3)
+
+// recommendations
+const rec = []
+
+if (!title) rec.push("Add a title tag between 50-60 characters")
+if (!meta) rec.push("Add a meta description of 150-160 characters")
+if (h1 !== 1) rec.push("Use exactly one H1 tag")
+if (imgs > alts) rec.push("Add alt text to images")
+if (!viewport) rec.push("Add mobile viewport meta tag")
+if (!robots) rec.push("Create a robots.txt file")
+if (!sitemap) rec.push("Add sitemap.xml")
+
+if (loadTime > 2000) rec.push("Improve page load speed")
 
 return res.status(200).json({
-  seo_score: seo,
-  speed_score: speed,
-  design_score: design,
-  overall_score: overall,
-  load_time: loadTime,
-  title: titleMatch ? titleMatch[1] : "Missing",
-  h1_count: h1,
-  images: images,
-  missing_alt: images - alt,
-  robots,
-  sitemap,
-  recommendations
-});
-```
+seo_score: seo,
+speed_score: speed,
+design_score: design,
+overall_score: overall,
+load_time: loadTime,
+title: title ? title[1] : "Missing",
+h1_count: h1,
+images: imgs,
+missing_alt: imgs - alts,
+robots,
+sitemap,
+recommendations: rec
+})
 
-} catch (error) {
+} catch (err) {
 
-```
-console.error(error);
+console.error(err)
 
 return res.status(200).json({
-  seo_score: 50,
-  speed_score: 60,
-  design_score: 60,
-  overall_score: 57,
-  recommendations: [
-    "Website blocked automated audit",
-    "Try another website"
-  ]
-});
-```
+seo_score: 50,
+speed_score: 60,
+design_score: 60,
+overall_score: 57,
+recommendations: [
+"Audit encountered an unexpected error",
+"Try another website"
+]
+})
 
 }
+
 }
