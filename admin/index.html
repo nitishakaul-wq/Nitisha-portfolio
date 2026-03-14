@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Generation Dashboard | EasyGoAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #0a0a0f;
+      color: #f1f1f4;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 32px;
+      margin-bottom: 5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: #14141c;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #6366f1;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #6366f1;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: #4f46e5;
+      transform: translateY(-2px);
+    }
+
+    .btn.secondary {
+      background: #1c1c28;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn.secondary:hover {
+      background: #27272f;
+    }
+
+    .btn:disabled {
+      background: #6b7280;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .select-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    select {
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #0f0f16;
+      color: white;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #14141c;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th {
+      background: #1c1c28;
+      padding: 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #9ca3af;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-new {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-generated {
+      background: #fed7aa;
+      color: #92400e;
+    }
+
+    .status-sent {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-responded {
+      background: #c7d2fe;
+      color: #3730a3;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .action-btn:hover {
+      background: #4f46e5;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.success {
+      background: #dcfce7;
+      color: #166534;
+      border-left: 4px solid #22c55e;
+    }
+
+    .message.loading {
+      background: #dbeafe;
+      color: #1e40af;
+      border-left: 4px solid #3b82f6;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(30, 64, 175, 0.3);
+      border-top-color: #1e40af;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      color: #9ca3af;
+    }
+
+    .email-preview {
+      background: #0f0f16;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 16px;
+      margin: 10px 0;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Lead Generation Dashboard</h1>
+      <p style="color: #9ca3af; margin-top: 5px;">AI-powered lead generation and outreach system</p>
+    </header>
+
+    <div id="message" class="message"></div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="total-leads">0</div>
+        <div class="stat-label">Total Leads</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="new-leads">0</div>
+        <div class="stat-label">New Leads</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="emails-generated">0</div>
+        <div class="stat-label">Emails Generated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="responses">0</div>
+        <div class="stat-label">Responses</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Marketing Agent Actions</div>
+      <div class="controls">
+        <div class="select-group">
+          <select id="industry">
+            <option value="">Select Industry</option>
+            <option value="dental">Dental Clinics</option>
+            <option value="salon">Salons & Spas</option>
+            <option value="lawyer">Law Firms</option>
+            <option value="restaurant">Restaurants</option>
+            <option value="clinic">Medical Clinics</option>
+          </select>
+          <select id="country">
+            <option value="IN">India (₹)</option>
+            <option value="US">USA ($)</option>
+          </select>
+          <button class="btn" onclick="findLeads()" id="find-leads-btn">Find New Leads</button>
+        </div>
+        <button class="btn" onclick="generatePitches()" id="generate-btn">Generate Personalized Pitches</button>
+        <button class="btn secondary" onclick="refreshStats()">Refresh Stats</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">All Leads</div>
+      <div id="leads-container" style="overflow-x: auto;">
+        <table id="leads-table">
+          <thead>
+            <tr>
+              <th>Business Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Industry</th>
+              <th>Country</th>
+              <th>Status</th>
+              <th>Date Added</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="leads-tbody">
+            <tr><td colspan="8" class="no-data">Loading leads...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Generated Outreach Emails</div>
+      <div id="emails-container" style="overflow-x: auto;">
+        <table id="emails-table">
+          <thead>
+            <tr>
+              <th>Business</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="emails-tbody">
+            <tr><td colspan="5" class="no-data">No emails generated yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://0ec90b57d6e95fcbda19832f.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib2x0IiwicmVmIjoiMGVjOTBiNTdkNmU5NWZjYmRhMTk4MzJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4ODE1NzQsImV4cCI6MTc1ODg4MTU3NH0.9I8-U0x86Ak8t2DGaIk0HfvTSLsAyzdnz-Nw00mMkKw';
+
+    async function fetchLeads() {
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+          }
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('Error fetching leads:', error);
+        return [];
+      }
+    }
+
+    async function fetchEmails() {
+      try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/outreach_emails`, {
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+          }
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('Error fetching emails:', error);
+        return [];
+      }
+    }
+
+    async function refreshStats() {
+      try {
+        const leads = await fetchLeads();
+        const emails = await fetchEmails();
+
+        document.getElementById('total-leads').textContent = leads.length;
+        document.getElementById('new-leads').textContent = leads.filter(l => l.status === 'new').length;
+        document.getElementById('emails-generated').textContent = emails.filter(e => e.status !== 'pending').length;
+        document.getElementById('responses').textContent = leads.filter(l => l.status === 'responded').length;
+
+        displayLeads(leads);
+        displayEmails(emails);
+      } catch (error) {
+        showMessage('Error refreshing data', 'error');
+      }
+    }
+
+    function displayLeads(leads) {
+      const tbody = document.getElementById('leads-tbody');
+      if (leads.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="no-data">No leads yet. Find some leads to get started!</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = leads.map(lead => `
+        <tr>
+          <td>${lead.business_name}</td>
+          <td>${lead.email}</td>
+          <td>${lead.phone || '-'}</td>
+          <td>${lead.industry || '-'}</td>
+          <td>${lead.country || '-'}</td>
+          <td><span class="status-badge status-${lead.status}">${lead.status}</span></td>
+          <td>${new Date(lead.created_at).toLocaleDateString()}</td>
+          <td><button class="action-btn" onclick="copyEmail('${lead.email}')">Copy Email</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function displayEmails(emails) {
+      const tbody = document.getElementById('emails-tbody');
+      if (emails.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="no-data">No emails generated yet.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = emails.slice(0, 10).map(email => `
+        <tr>
+          <td>${email.lead_id.substring(0, 8)}...</td>
+          <td>${email.id.substring(0, 8)}...</td>
+          <td>${email.email_subject.substring(0, 40)}...</td>
+          <td><span class="status-badge status-${email.status}">${email.status}</span></td>
+          <td><button class="action-btn" onclick="showEmailPreview('${email.email_subject}', '${email.email_body.replace(/'/g, "\\'")}')">Preview</button></td>
+        </tr>
+      `).join('');
+    }
+
+    async function findLeads() {
+      const industry = document.getElementById('industry').value;
+      const country = document.getElementById('country').value;
+      const btn = document.getElementById('find-leads-btn');
+
+      if (!industry) {
+        showMessage('Please select an industry', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      showMessage('<span class="loading-spinner"></span>Searching for leads...', 'loading');
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/marketing-agent`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+          },
+          body: JSON.stringify({
+            action: 'find_leads',
+            industry: industry,
+            country: country
+          })
+        });
+
+        const data = await response.json();
+        showMessage(`✓ Found and created ${data.leads_count || 0} new leads!`, 'success');
+        await refreshStats();
+      } catch (error) {
+        showMessage('Error finding leads: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function generatePitches() {
+      const btn = document.getElementById('generate-btn');
+      btn.disabled = true;
+      showMessage('<span class="loading-spinner"></span>Generating personalized pitches...', 'loading');
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/marketing-agent`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+          },
+          body: JSON.stringify({
+            action: 'generate_pitch'
+          })
+        });
+
+        const data = await response.json();
+        const count = data.pitches?.length || 0;
+        showMessage(`✓ Generated ${count} personalized email pitches!`, 'success');
+        await refreshStats();
+      } catch (error) {
+        showMessage('Error generating pitches: ' + error.message, 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerHTML = text;
+      messageDiv.className = `message show ${type}`;
+      if (type === 'success') {
+        setTimeout(() => messageDiv.classList.remove('show'), 4000);
+      }
+    }
+
+    function copyEmail(email) {
+      navigator.clipboard.writeText(email);
+      showMessage('Email copied to clipboard!', 'success');
+    }
+
+    function showEmailPreview(subject, body) {
+      alert(`Subject: ${subject}\n\n${body}`);
+    }
+
+    refreshStats();
+    setInterval(refreshStats, 30000);
+  </script>
+</body>
+</html>
