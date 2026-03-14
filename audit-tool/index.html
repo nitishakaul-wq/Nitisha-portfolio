@@ -555,6 +555,7 @@
         }
         el.innerHTML = renderLoading(step);
       }, 600);
+      return t1;
     }
 
     function progressClass(score, max) {
@@ -691,7 +692,14 @@
 
       submitBtn.disabled = true;
       resultsEl.innerHTML = renderLoading(0);
-      cycleLoading(resultsEl, null);
+      var loadingInterval = cycleLoading(resultsEl, null);
+
+      var timeoutId = setTimeout(function () {
+        if (loadingInterval) clearInterval(loadingInterval);
+        loadingInterval = null;
+        resultsEl.innerHTML = '<div class="error-msg">Audit is taking too long. The site may be slow or blocking the request. Try again or use another URL.</div>';
+        submitBtn.disabled = false;
+      }, 22000);
 
       fetch('/api/audit', {
         method: 'POST',
@@ -700,6 +708,8 @@
       })
         .then(function (res) {
           return res.json().then(function (data) {
+            clearTimeout(timeoutId);
+            if (loadingInterval) clearInterval(loadingInterval);
             if (!res.ok) {
               var msg = (data && data.error) || 'Request failed. Try another website.';
               resultsEl.innerHTML = '<div class="error-msg">' + escapeHtml(msg) + '</div>';
@@ -709,6 +719,8 @@
           });
         })
         .catch(function (err) {
+          clearTimeout(timeoutId);
+          if (loadingInterval) clearInterval(loadingInterval);
           console.error(err);
           resultsEl.innerHTML = '<div class="error-msg">Audit failed. Check the URL or try again later.</div>';
         })
