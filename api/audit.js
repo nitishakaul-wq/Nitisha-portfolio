@@ -3,65 +3,86 @@ export default async function handler(req, res) {
 try {
 
 if (req.method !== "POST") {
-return res.status(200).json({ message: "API running" })
+return res.status(200).json({ message: "Audit API running" })
 }
 
-const { url } = req.body || {}
+const { url } = req.body
 
 if (!url) {
-return res.status(400).json({ error: "Missing URL" })
+return res.status(400).json({ error: "URL required" })
 }
 
-const response = await fetch(url, {
-headers: {
-"User-Agent": "Mozilla/5.0"
-}
+// fetch website
+const start = Date.now()
+
+const response = await fetch(url,{
+headers:{ "User-Agent":"Mozilla/5.0"}
 })
 
 const html = await response.text()
 
-// simple SEO checks
-const hasTitle = html.includes("<title")
-const hasMeta = html.includes('name="description"')
-const h1Count = (html.match(/<h1/gi) || []).length
+const loadTime = Date.now() - start
+
+// SEO checks
+
+const title = html.match(/<title>(.*?)<\/title>/i)
+const meta = html.match(/name=["']description["']/i)
+const h1 = (html.match(/<h1/gi) || []).length
+const imgs = (html.match(/<img/gi) || []).length
+const alts = (html.match(/alt=/gi) || []).length
+const links = (html.match(/<a\s+href/gi) || []).length
+const viewport = html.includes("viewport")
 
 let seo = 0
 let speed = 70
 let design = 70
 
-if (hasTitle) seo += 30
-if (hasMeta) seo += 30
-if (h1Count === 1) seo += 40
-if (seo > 100) seo = 100
+if(title) seo += 20
+if(meta) seo += 20
+if(h1 === 1) seo += 20
+if(viewport) seo += 10
+if(imgs>0){
+const ratio = alts/imgs
+seo += Math.round(ratio*20)
+}
+if(links>5) seo += 10
 
-const overall = Math.round((seo + speed + design) / 3)
+if(seo>100) seo=100
+
+const overall = Math.round((seo+speed+design)/3)
+
+const recommendations=[]
+
+if(!meta) recommendations.push("Add a meta description to improve search click-through rate")
+
+if(h1!==1) recommendations.push("Use exactly one H1 tag for better SEO structure")
+
+if(imgs>alts) recommendations.push("Add alt text to images for accessibility and image SEO")
+
+if(!viewport) recommendations.push("Add mobile viewport meta tag")
+
+if(loadTime>2000) recommendations.push("Improve page load speed")
 
 return res.status(200).json({
-seo_score: seo,
-speed_score: speed,
-design_score: design,
-overall_score: overall,
-recommendations: [
-"Add meta description",
-"Improve heading structure",
-"Optimize images"
-]
+seo_score:seo,
+speed_score:speed,
+design_score:design,
+overall_score:overall,
+load_time:loadTime,
+title:title?title[1]:"Missing",
+images:imgs,
+missing_alt:imgs-alts,
+recommendations
 })
 
-} catch (err) {
-
-console.error(err)
+}catch(e){
 
 return res.status(200).json({
-seo_score: 50,
-speed_score: 60,
-design_score: 60,
-overall_score: 57,
-recommendations: [
-"Website blocked automated request",
-"Check SEO structure",
-"Try another website"
-]
+seo_score:50,
+speed_score:60,
+design_score:60,
+overall_score:57,
+recommendations:["Audit failed on this website"]
 })
 
 }
