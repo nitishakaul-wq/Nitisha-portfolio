@@ -51,7 +51,7 @@
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-margin-top: 2rem; }
+    html { scroll-behavior: smooth; scroll-margin-top: 2rem; overflow-x: hidden; }
     body {
       font-family: 'Outfit', system-ui, sans-serif;
       margin: 0;
@@ -913,19 +913,39 @@
 
     /* ---- MOBILE ---- */
     @media (max-width: 768px) {
-      nav { padding: 14px 20px; }
+      nav { padding: 14px 16px; flex-wrap: wrap; gap: 12px; justify-content: center; }
+      .logo { font-size: 1.1rem; }
+      .nav-links { justify-content: center; }
       .nav-links a { padding: 8px 12px; font-size: 0.85rem; }
-      header { padding: 56px 20px 64px; }
+      header { padding: 48px 16px 56px; }
       .btn-row { flex-direction: column; }
       .btn { width: 100%; max-width: 300px; justify-content: center; }
       .trust { flex-direction: column; gap: 12px; }
-      section { padding: 56px 20px; }
+      section { padding: 48px 16px; }
+      .section-head h2 { font-size: 1.75rem; }
       .grid { grid-template-columns: 1fr; }
       .demo-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
-      .funnel-cta { padding: 24px 20px; }
-      .credibility-section { padding: 36px 20px; }
-      .credibility-card { padding: 24px 20px 24px 24px; }
+      .funnel-cta { padding: 24px 16px; }
+      .credibility-section { padding: 32px 16px; }
+      .credibility-card { padding: 24px 18px; max-width: 100%; }
+      .contact-wrap { padding: 0 4px; gap: 28px; }
+      .contact-form-wrap form { max-width: 100%; }
+      .demo-panel { min-width: 0; }
+      .demo-mock { max-width: 100%; }
+      .demo-mock-preview { padding: 20px 16px 28px; min-height: 180px; }
+      .demo-mock-preview .mock-hero-title { font-size: 1.35rem; }
+      .mock-url { word-break: break-all; font-size: 0.7rem; }
+      footer { padding: 36px 16px; font-size: 0.85rem; }
+    }
+    @media (max-width: 480px) {
+      nav { padding: 12px 12px; }
+      header { padding: 40px 12px 48px; }
+      section { padding: 40px 12px; }
+      .credibility-card { padding: 20px 14px; }
+      .contact-wrap { gap: 24px; }
+      .demo-mock-preview .mock-hero-title { font-size: 1.2rem; }
+      .demo-mock-preview .mock-hero-tag { font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -954,7 +974,7 @@
       <h1>Helping small businesses get <span class="hero-highlight">online</span></h1>
       <p class="hero-value">Simple, AI-powered websites. Fast delivery. No tech headaches.</p>
       <p class="tagline">
-        Clean, modern sites so customers can find and contact you—shaped with AI from your description. Built for salons, clinics, and local businesses; no jargon, no endless meetings.
+        Clean sites shaped with AI from your description. For salons, clinics & local businesses—no jargon.
       </p>
 
       <div class="btn-row">
