@@ -1,6 +1,7 @@
 /**
  * Vercel serverless API: SEO audit (real checks, 100-point score).
  * POST /api/audit with body { "url": "https://example.com" }
+ * Score: Structure 30, Technical SEO 30, Content Quality 40.
  */
 export default async function handler(req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -96,6 +97,7 @@ export default async function handler(req, res) {
       scoreTechnical(details);
     const { score: contentScore, recommendations: contentRecs } =
       scoreContent(details);
+    const articleRecs = recommendArticle(details);
 
     const seo_score = Math.round(
       structureScore + technicalScore + contentScore
@@ -104,7 +106,8 @@ export default async function handler(req, res) {
       ...structureRecs,
       ...technicalRecs,
       ...contentRecs,
-    ].slice(0, 15);
+      ...articleRecs,
+    ].slice(0, 18);
 
     return res.status(200).json({
       seo_score: Math.min(100, Math.max(0, seo_score)),
@@ -136,6 +139,75 @@ function getOrigin(url) {
   } catch {
     return null;
   }
+}
+
+function analyzeOpenGraph(html) {
+  const ogTitle = /<meta\s[^>]*property\s*=\s*["']og:title["'][^>]*>/i.test(html) ||
+    /<meta\s[^>]*content\s*=[^>]*property\s*=\s*["']og:title["']/i.test(html);
+  const ogDesc = /<meta\s[^>]*property\s*=\s*["']og:description["'][^>]*>/i.test(html) ||
+    /<meta\s[^>]*content\s*=[^>]*property\s*=\s*["']og:description["']/i.test(html);
+  const ogImage = /<meta\s[^>]*property\s*=\s*["']og:image["'][^>]*>/i.test(html) ||
+    /<meta\s[^>]*content\s*=[^>]*property\s*=\s*["']og:image["']/i.test(html);
+  return {
+    has_og_title: ogTitle,
+    has_og_description: ogDesc,
+    has_og_image: ogImage,
+  };
+}
+
+function analyzeTwitterCards(html) {
+  const twCard = /<meta\s[^>]*name\s*=\s*["']twitter:card["'][^>]*>/i.test(html) ||
+    /<meta\s[^>]*content\s*=[^>]*name\s*=\s*["']twitter:card["']/i.test(html);
+  const twTitle = /<meta\s[^>]*name\s*=\s*["']twitter:title["'][^>]*>/i.test(html) ||
+    /<meta\s[^>]*content\s*=[^>]*name\s*=\s*["']twitter:title["']/i.test(html);
+  const twDesc = /<meta\s[^>]*name\s*=\s*["']twitter:description["'][^>]*>/i.test(html) ||
+    /<meta\s[^>]*content\s*=[^>]*name\s*=\s*["']twitter:description["']/i.test(html);
+  return {
+    has_twitter_card: twCard,
+    has_twitter_title: twTitle,
+    has_twitter_description: twDesc,
+  };
+}
+
+const STRUCTURED_DATA_TYPES = ["LocalBusiness", "Product", "FAQPage", "Review", "BreadcrumbList"];
+
+function analyzeStructuredData(html) {
+  const ldJsonBlocks = html.match(/<script[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || [];
+  const typesFound = [];
+  for (const block of ldJsonBlocks) {
+    const contentMatch = block.match(/<script[^>]*>([\s\S]*?)<\/script>/i);
+    const content = contentMatch ? contentMatch[1].trim() : "";
+    if (!content) continue;
+    for (const type of STRUCTURED_DATA_TYPES) {
+      const re = new RegExp('"@type"\\s*:\\s*["\']' + type + '["\']', "i");
+      if (re.test(content)) typesFound.push(type);
+    }
+    const arrayTypeRe = /"@type"\s*:\s*\[\s*["']([^"']+)["']/gi;
+    let m;
+    while ((m = arrayTypeRe.exec(content)) !== null) {
+      const t = m[1];
+      if (STRUCTURED_DATA_TYPES.some((st) => st.toLowerCase() === t.toLowerCase()) && !typesFound.includes(t)) {
+        typesFound.push(STRUCTURED_DATA_TYPES.find((st) => st.toLowerCase() === t.toLowerCase()));
+      }
+    }
+  }
+  const unique = [...new Set(typesFound)];
+  return {
+    has_structured_data: unique.length > 0,
+    structured_data_types: unique,
+  };
+}
+
+function analyzePerformanceSignals(html, pageSizeBytes) {
+  const scriptCount = (html.match(/<script\b/gi) || []).length;
+  const linkStyles = (html.match(/<link\s[^>]*rel\s*=\s*["']stylesheet["'][^>]*>/gi) || []).length;
+  const styleTags = (html.match(/<style\b/gi) || []).length;
+  const cssCount = linkStyles + styleTags;
+  return {
+    script_count: scriptCount,
+    css_count: cssCount,
+    html_size_kb: Math.round((pageSizeBytes / 1024) * 10) / 10,
+  };
 }
 
 function analyzePage(html, pageUrl, origin) {
@@ -187,6 +259,14 @@ function analyzePage(html, pageUrl, origin) {
     externalLinks = aTags.length;
   }
 
+  const articleSignals = analyzeArticleSignals(html);
+  const likelySpa = detectLikelySpa(html, h1Count, h2Count, imagesTotal);
+  const ogSignals = analyzeOpenGraph(html);
+  const twitterSignals = analyzeTwitterCards(html);
+  const structuredData = analyzeStructuredData(html);
+  const pageSizeBytes = typeof html.length === "number" ? html.length : 0;
+  const perfSignals = analyzePerformanceSignals(html, pageSizeBytes);
+
   return {
     title: titleRaw || null,
     title_length: titleLength,
@@ -202,7 +282,62 @@ function analyzePage(html, pageUrl, origin) {
     images_with_alt: imagesWithAlt,
     internal_links: internalLinks,
     external_links: externalLinks,
+    ...articleSignals,
+    likely_spa: likelySpa,
+    ...ogSignals,
+    ...twitterSignals,
+    ...structuredData,
+    ...perfSignals,
   };
+}
+
+function analyzeArticleSignals(html) {
+  const ogTypeMatch = html.match(
+    /<meta\s[^>]*property\s*=\s*["']og:type["'][^>]*content\s*=\s*["']([^"']*)["']/i
+  ) || html.match(
+    /<meta\s[^>]*content\s*=\s*["']([^"']*)["'][^>]*property\s*=\s*["']og:type["']/i
+  );
+  const ogType = ogTypeMatch ? ogTypeMatch[1].trim().toLowerCase() : null;
+  const isArticleType = ogType === "article" || ogType === "newsarticle";
+
+  const hasArticleTag = /<article\b/i.test(html);
+  const hasSchemaArticle =
+    /"@type"\s*:\s*["']Article["']/i.test(html) ||
+    /"@type"\s*:\s*["']NewsArticle["']/i.test(html);
+
+  const authorMatch = html.match(
+    /<meta\s[^>]*name\s*=\s*["']author["'][^>]*content\s*=\s*["']([^"']*)["']/i
+  ) || html.match(
+    /<meta\s[^>]*property\s*=\s*["']article:author["'][^>]*content\s*=\s*["']([^"']*)["']/i
+  );
+  const hasAuthor = !!(authorMatch && authorMatch[1].trim());
+
+  const publishedMatch = html.match(
+    /<meta\s[^>]*property\s*=\s*["']article:published_time["'][^>]*content\s*=\s*["']([^"']*)["']/i
+  ) || html.match(
+    /<meta\s[^>]*content\s*=\s*["']([^"']*)["'][^>]*property\s*=\s*["']article:published_time["']/i
+  );
+  const hasPublishedTime = !!(publishedMatch && publishedMatch[1].trim());
+
+  return {
+    og_type: ogType || null,
+    is_article_type: isArticleType,
+    has_article_tag: hasArticleTag,
+    has_schema_article: hasSchemaArticle,
+    has_author_meta: hasAuthor,
+    has_published_time: hasPublishedTime,
+  };
+}
+
+function detectLikelySpa(html, h1Count, h2Count, imagesTotal) {
+  const scriptCount = (html.match(/<script\b/gi) || []).length;
+  const semanticContent = h1Count + h2Count + imagesTotal;
+  const hasRootApp = /id\s*=\s*["']root["']|id\s*=\s*["']app["']|id\s*=\s*["']__next["']|id\s*=\s*["']app-root["']/i.test(html);
+  return (
+    scriptCount >= 4 &&
+    semanticContent < 4 &&
+    (html.length > 3000 || hasRootApp)
+  );
 }
 
 async function checkTechnicalUrls(origin) {
@@ -290,16 +425,22 @@ function scoreContent(d) {
     if (ratio < 1) recs.push(`Your page has ${d.images_total} image(s) but only ${d.images_with_alt} have alt attributes.`);
   } else score += 10;
   const internal = d.internal_links || 0;
-  if (internal >= 3) score += 10;
-  else if (internal >= 1) score += 6;
+  if (internal >= 3) score += 8;
+  else if (internal >= 1) score += 5;
   else recs.push("Add internal links to other pages on your site.");
   let contentSignals = 0;
-  if (d.external_links > 0) contentSignals += 8;
-  if (d.h2_count >= 2) contentSignals += 8;
-  if (d.page_size_bytes > 500) contentSignals += 6;
-  if (d.meta_description_present && d.title_present) contentSignals += 8;
-  score += Math.min(30, contentSignals);
-  return { score: Math.min(50, score), recommendations: recs };
+  if (d.external_links > 0) contentSignals += 4;
+  if (d.h2_count >= 2) contentSignals += 4;
+  if (d.page_size_bytes > 500) contentSignals += 2;
+  if (d.meta_description_present && d.title_present) contentSignals += 4;
+  score += Math.min(14, contentSignals);
+  if (d.has_og_title && d.has_og_description && d.has_og_image) score += 4;
+  else if (d.has_og_title || d.has_og_description || d.has_og_image) score += 2;
+  else recs.push("Add Open Graph tags (og:title, og:description, og:image) to improve social sharing previews.");
+  if (d.has_twitter_card && d.has_twitter_title && d.has_twitter_description) score += 4;
+  else if (d.has_twitter_card || d.has_twitter_title || d.has_twitter_description) score += 2;
+  else recs.push("Add Twitter Card meta tags to improve Twitter link previews.");
+  return { score: Math.min(40, score), recommendations: recs };
 }
 
 function scoreTechnical(d) {
@@ -311,9 +452,26 @@ function scoreTechnical(d) {
   if (d.is_https) score += pts.https; else recs.push("Use HTTPS for this page.");
   if (d.has_canonical) score += pts.canonical; else recs.push("Add a canonical tag.");
   if (d.has_viewport) score += pts.viewport; else recs.push("Add a viewport meta tag for mobile.");
-  return { score: Math.min(20, score), recommendations: recs };
+  if (d.has_structured_data) score += 5;
+  else recs.push("Add structured data (Schema.org JSON-LD) to improve search engine rich results.");
+  const htmlKb = d.html_size_kb != null ? d.html_size_kb : (d.page_size_bytes || 0) / 1024;
+  const scriptCount = d.script_count != null ? d.script_count : 0;
+  if (htmlKb <= 500 && scriptCount <= 20) score += 5;
+  else recs.push("This page may be heavy. Consider reducing JavaScript and optimizing assets.");
+  return { score: Math.min(30, score), recommendations: recs };
 }
 
+function recommendArticle(d) {
+  const recs = [];
+  if (!d.is_article_type && !d.has_schema_article && !d.has_article_tag) return recs;
+  if (d.is_article_type || d.has_schema_article) {
+    if (!d.has_author_meta) recs.push("Article pages: add author meta (name=\"author\" or article:author).");
+    if (!d.has_published_time) recs.push("Article pages: add article:published_time for better rich results.");
+  }
+  if (d.has_article_tag && !d.has_schema_article && !d.is_article_type)
+    recs.push("Consider adding Open Graph og:type=article or Schema.org Article for article pages.");
+  return recs;
+}
 
 function sanitizeDetails(d) {
   return {
@@ -334,5 +492,23 @@ function sanitizeDetails(d) {
     internal_links: d.internal_links,
     external_links: d.external_links,
     page_size_bytes: d.page_size_bytes,
+    og_type: d.og_type || null,
+    is_article_type: d.is_article_type || false,
+    has_article_tag: d.has_article_tag || false,
+    has_schema_article: d.has_schema_article || false,
+    has_author_meta: d.has_author_meta || false,
+    has_published_time: d.has_published_time || false,
+    likely_spa: d.likely_spa || false,
+    has_og_title: d.has_og_title || false,
+    has_og_description: d.has_og_description || false,
+    has_og_image: d.has_og_image || false,
+    has_twitter_card: d.has_twitter_card || false,
+    has_twitter_title: d.has_twitter_title || false,
+    has_twitter_description: d.has_twitter_description || false,
+    has_structured_data: d.has_structured_data || false,
+    structured_data_types: Array.isArray(d.structured_data_types) ? d.structured_data_types : [],
+    script_count: d.script_count != null ? d.script_count : 0,
+    css_count: d.css_count != null ? d.css_count : 0,
+    html_size_kb: d.html_size_kb != null ? d.html_size_kb : (d.page_size_bytes != null ? Math.round((d.page_size_bytes / 1024) * 10) / 10 : 0),
   };
 }
