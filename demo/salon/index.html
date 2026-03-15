@@ -1,434 +1,575 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f2937">
+  <title>LuxeGlow Salon | Demo Website</title>
+  <meta name="description" content="Demo salon website showcasing a modern website design for beauty salons and hair studios. Hair, makeup, and skin care.">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-<title>LuxeGlow Salon | Demo Website</title>
+  <style>
+    :root {
+      --bg: #fdf8fa;
+      --surface: #ffffff;
+      --surface-2: #f9f1f4;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+      --accent: #db2777;
+      --accent-hover: #be185d;
+      --accent-soft: rgba(219, 39, 119, 0.12);
+      --border: #f3e8ec;
+      --radius: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
 
-<meta name="description" content="Demo salon website showcasing a modern website design for beauty salons and hair studios.">
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    /* Demo watermark */
+    body::after {
+      content: "DEMO";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-12deg);
+      font-size: clamp(60px, 15vw, 120px);
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.03);
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: 0.05em;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    /* Demo banner */
+    .demo-banner {
+      background: #1f2937;
+      color: #f9fafb;
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 60;
+    }
+    .demo-banner a {
+      color: #f9a8d4;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 6px;
+      transition: color 0.2s;
+    }
+    .demo-banner a:hover {
+      color: #fbcfe8;
+    }
 
-<style>
+    /* Nav */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px max(24px, env(safe-area-inset-left)) 16px max(24px, env(safe-area-inset-right));
+      background: var(--surface);
+      box-shadow: 0 1px 0 var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
 
-body{
-font-family:'Poppins',sans-serif;
-margin:0;
-background:#faf7f9;
-color:#1f2937;
-line-height:1.6;
-}
+    nav strong {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
 
-/* DEMO WATERMARK */
+    nav div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+    }
 
-body::after{
-content:"DEMO WEBSITE";
-position:fixed;
-top:40%;
-left:8%;
-font-size:80px;
-color:rgba(0,0,0,0.05);
-transform:rotate(-25deg);
-pointer-events:none;
-z-index:9999;
-font-weight:700;
-}
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 10px 16px;
+      border-radius: 10px;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
 
-/* DEMO BANNER */
+    /* Hero */
+    .hero {
+      min-height: 420px;
+      background-image: url("https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=60");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      position: relative;
+      z-index: 1;
+      padding: 80px 24px 100px;
+    }
 
-.demo-banner{
-background:#111827;
-color:#fff;
-text-align:center;
-padding:10px;
-font-size:14px;
-}
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(31, 41, 55, 0.45) 0%, rgba(31, 41, 55, 0.65) 100%);
+      z-index: 0;
+    }
 
-.demo-banner a{
-color:#f472b6;
-text-decoration:none;
-font-weight:600;
-}
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+    }
 
-/* NAVBAR */
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      font-weight: 400;
+      margin: 0 0 12px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    }
 
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 40px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
+    .hero .hero-tagline {
+      font-size: 1.15rem;
+      opacity: 0.95;
+      margin: 0 0 24px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
 
-nav a{
-text-decoration:none;
-color:#374151;
-margin-left:18px;
-font-size:14px;
-}
+    .btn {
+      background: var(--accent);
+      color: white;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.25s var(--ease), transform 0.2s, box-shadow 0.25s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 20px rgba(219, 39, 119, 0.35);
+    }
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(219, 39, 119, 0.4);
+    }
 
-/* HERO */
+    /* Sections */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      position: relative;
+      z-index: 1;
+    }
 
-.hero{
-height:420px;
-background-image:url("https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1600&q=60");
-background-size:cover;
-background-position:center;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-position:relative;
-}
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.85rem, 4vw, 2.35rem);
+      font-weight: 400;
+      text-align: center;
+      margin: 0 0 48px;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
 
-.hero::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(0,0,0,0.4);
-}
+    /* Services */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
 
-.hero-content{
-position:relative;
-z-index:2;
-}
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+      border: 1px solid var(--border);
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
 
-.hero h1{
-font-size:42px;
-margin-bottom:10px;
-}
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+    .card:hover img {
+      transform: scale(1.05);
+    }
 
-.btn{
-background:#ec4899;
-color:white;
-padding:12px 24px;
-border-radius:6px;
-text-decoration:none;
-display:inline-block;
-margin-top:15px;
-}
+    .card-content {
+      padding: 24px;
+    }
 
-/* SECTIONS */
+    .card strong {
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
 
-section{
-max-width:1100px;
-margin:auto;
-padding:70px 20px;
-}
+    .card-content p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
 
-h2{
-text-align:center;
-margin-bottom:35px;
-}
+    /* Team */
+    .team {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+      text-align: center;
+    }
 
-/* SERVICES */
+    .team > div {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .team > div:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+    }
 
-.services{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:24px;
-}
+    .team img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
 
-.card{
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 4px 14px rgba(0,0,0,0.06);
-}
+    .team h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 16px 0 4px;
+      color: var(--text);
+    }
 
-.card img{
-width:100%;
-height:180px;
-object-fit:cover;
-}
+    .team p {
+      margin: 0 0 20px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
 
-.card-content{
-padding:18px;
-}
+    /* Gallery */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
 
-/* TEAM */
+    .gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      transition: transform 0.4s var(--ease);
+      border: 1px solid var(--border);
+    }
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
 
-.team{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-text-align:center;
-}
+    /* Reviews */
+    .reviews {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
 
-.team img{
-width:100%;
-height:260px;
-object-fit:cover;
-border-radius:10px;
-}
+    .review {
+      background: var(--surface);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--accent);
+      transition: box-shadow 0.25s, transform 0.25s var(--ease);
+    }
+    .review:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
 
-/* GALLERY */
+    .review p {
+      margin: 0 0 16px;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.65;
+      font-style: italic;
+    }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:12px;
-}
+    .review strong {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
 
-.gallery img{
-width:100%;
-height:180px;
-object-fit:cover;
-border-radius:8px;
-}
+    /* Contact */
+    form {
+      max-width: 440px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+      background: var(--surface);
+      padding: 36px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
 
-/* REVIEWS */
+    input, textarea {
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input::placeholder, textarea::placeholder {
+      color: var(--text-muted);
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
 
-.reviews{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
+    button[type="submit"] {
+      padding: 14px 28px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.25s var(--ease), transform 0.2s, box-shadow 0.25s;
+      margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(219, 39, 119, 0.35);
+    }
+    button[type="submit"]:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(219, 39, 119, 0.4);
+    }
 
-.review{
-background:white;
-padding:18px;
-border-radius:8px;
-box-shadow:0 3px 10px rgba(0,0,0,0.05);
-}
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      background: var(--surface-2);
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
 
-/* CONTACT */
+    footer p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
 
-form{
-max-width:420px;
-margin:auto;
-display:grid;
-gap:12px;
-}
+    /* Mobile */
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 16px;
+      }
+      nav div { justify-content: center; }
+      .hero {
+        min-height: 360px;
+        padding: 60px 20px 80px;
+      }
+      section { padding: 56px 20px; }
+      h2 { margin-bottom: 32px; }
+      .team img { height: 240px; }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .gallery img { height: 160px; }
+      form {
+        padding: 24px 20px;
+        margin: 0;
+      }
+    }
 
-input,textarea{
-padding:10px;
-border-radius:6px;
-border:1px solid #ddd;
-}
-
-button{
-padding:12px;
-border:none;
-background:#ec4899;
-color:white;
-border-radius:6px;
-font-weight:600;
-cursor:pointer;
-}
-
-/* FOOTER */
-
-footer{
-text-align:center;
-padding:30px;
-background:#f3f4f6;
-font-size:14px;
-}
-
-@media(max-width:800px){
-
-body::after{
-font-size:50px;
-}
-
-}
-
-</style>
-
+    @media (max-width: 480px) {
+      .hero { padding: 48px 16px 64px; }
+      section { padding: 48px 16px; }
+      .services { grid-template-columns: 1fr; }
+      .team { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
+      .gallery img { height: 200px; }
+      .reviews { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="demo-banner">
-⚠️ This is a demo salon website created by Nitisha to showcase website design services.
-<a href="/">Get a website like this</a>
-</div>
-
-<nav>
-
-<strong>LuxeGlow Salon</strong>
-
-<div>
-<a href="#">Home</a>
-<a href="#services">Services</a>
-<a href="#team">Stylists</a>
-<a href="#contact">Book</a>
-</div>
-
-</nav>
-
-<div class="hero">
-
-<div class="hero-content">
-
-<h1>LuxeGlow Beauty Salon</h1>
-
-<p>Hair • Makeup • Skin Care</p>
-
-<a class="btn" href="#contact">Book Appointment</a>
-
-</div>
-
-</div>
-
-<section id="services">
-
-<h2>Our Beauty Services</h2>
-
-<div class="services">
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=900&q=60">
-
-<div class="card-content">
-
-<strong>Hair Styling</strong>
-
-<p>Professional haircuts, coloring and styling.</p>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=60">
-
-<div class="card-content">
-
-<strong>Makeup Services</strong>
-
-<p>Party, bridal and professional makeup.</p>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=900&q=60">
-
-<div class="card-content">
-
-<strong>Skin Care</strong>
-
-<p>Facials and skin treatments for glowing skin.</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<section id="team">
-
-<h2>Meet Our Stylists</h2>
-
-<div class="team">
-
-<div>
-<img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=60">
-<h4>Emma Roberts</h4>
-<p>Senior Hair Stylist</p>
-</div>
-
-<div>
-<img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=60">
-<h4>Sophia Lee</h4>
-<p>Makeup Artist</p>
-</div>
-
-<div>
-<img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=60">
-<h4>Ava Martinez</h4>
-<p>Skin Care Specialist</p>
-</div>
-
-</div>
-
-</section>
-
-<section>
-
-<h2>Salon Gallery</h2>
-
-<div class="gallery">
-
-<img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=60">
-
-<img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=600&q=60">
-
-<img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=600&q=60">
-
-<img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=600&q=60">
-
-</div>
-
-</section>
-
-<section>
-
-<h2>Customer Reviews</h2>
-
-<div class="reviews">
-
-<div class="review">
-<p>Fantastic salon and friendly staff!</p>
-<strong>— Jessica M.</strong>
-</div>
-
-<div class="review">
-<p>My haircut looks amazing every time.</p>
-<strong>— Lauren K.</strong>
-</div>
-
-<div class="review">
-<p>Very relaxing experience and professional team.</p>
-<strong>— Rachel T.</strong>
-</div>
-
-</div>
-
-</section>
-
-<section id="contact">
-
-<h2>Book an Appointment</h2>
-
-<form onsubmit="alert('This is a demo booking form and does not submit data.'); return false;">
-
-<input placeholder="Your Name">
-
-<input placeholder="Phone Number">
-
-<input placeholder="Preferred Date">
-
-<textarea placeholder="Message"></textarea>
-
-<button>Request Appointment</button>
-
-</form>
-
-</section>
-
-<footer>
-
-<p>Demo salon website created for design showcase purposes.</p>
-
-</footer>
+  <div class="demo-banner" role="banner">
+    ⚠️ This is a demo salon website created by Nitisha to showcase website design services.
+    <a href="/">Get a website like this</a>
+  </div>
+
+  <nav role="navigation" aria-label="Main navigation">
+    <strong>LuxeGlow Salon</strong>
+    <div>
+      <a href="#">Home</a>
+      <a href="#services">Services</a>
+      <a href="#team">Stylists</a>
+      <a href="#contact">Book</a>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>LuxeGlow Beauty Salon</h1>
+      <p class="hero-tagline">Hair • Makeup • Skin Care</p>
+      <a class="btn" href="#contact">Book Appointment</a>
+    </div>
+  </div>
+
+  <main>
+    <section id="services" aria-labelledby="services-heading">
+      <h2 id="services-heading">Our Beauty Services</h2>
+      <div class="services">
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=900&q=60" alt="Hair styling">
+          <div class="card-content">
+            <strong>Hair Styling</strong>
+            <p>Professional haircuts, coloring and styling.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=60" alt="Makeup services">
+          <div class="card-content">
+            <strong>Makeup Services</strong>
+            <p>Party, bridal and professional makeup.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=900&q=60" alt="Skin care">
+          <div class="card-content">
+            <strong>Skin Care</strong>
+            <p>Facials and skin treatments for glowing skin.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="team" aria-labelledby="team-heading">
+      <h2 id="team-heading">Meet Our Stylists</h2>
+      <div class="team">
+        <div>
+          <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=60" alt="Emma Roberts, Senior Hair Stylist">
+          <h4>Emma Roberts</h4>
+          <p>Senior Hair Stylist</p>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=60" alt="Sophia Lee, Makeup Artist">
+          <h4>Sophia Lee</h4>
+          <p>Makeup Artist</p>
+        </div>
+        <div>
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=600&q=60" alt="Ava Martinez, Skin Care Specialist">
+          <h4>Ava Martinez</h4>
+          <p>Skin Care Specialist</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading">Salon Gallery</h2>
+      <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=60" alt="Salon interior">
+        <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?auto=format&fit=crop&w=600&q=60" alt="Salon styling">
+        <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?auto=format&fit=crop&w=600&q=60" alt="Beauty treatment">
+        <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=600&q=60" alt="Salon atmosphere">
+      </div>
+    </section>
+
+    <section aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading">Customer Reviews</h2>
+      <div class="reviews">
+        <blockquote class="review">
+          <p>Fantastic salon and friendly staff!</p>
+          <strong>— Jessica M.</strong>
+        </blockquote>
+        <blockquote class="review">
+          <p>My haircut looks amazing every time.</p>
+          <strong>— Lauren K.</strong>
+        </blockquote>
+        <blockquote class="review">
+          <p>Very relaxing experience and professional team.</p>
+          <strong>— Rachel T.</strong>
+        </blockquote>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Book an Appointment</h2>
+      <form onsubmit="alert('This is a demo booking form and does not submit data.'); return false;" aria-label="Appointment request form">
+        <input type="text" placeholder="Your Name" aria-label="Your name">
+        <input type="tel" placeholder="Phone Number" aria-label="Phone number">
+        <input type="text" placeholder="Preferred Date" aria-label="Preferred date">
+        <textarea placeholder="Message" aria-label="Message"></textarea>
+        <button type="submit">Request Appointment</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Demo salon website created for design showcase purposes.</p>
+  </footer>
 
 </body>
-
 </html>
