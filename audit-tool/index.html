@@ -34,6 +34,7 @@
       --glow: 0 0 60px rgba(99, 102, 241, 0.15);
     }
     * { box-sizing: border-box; }
+    html { overflow-x: hidden; }
     body {
       margin: 0;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -41,6 +42,7 @@
       color: var(--text);
       line-height: 1.5;
       min-height: 100vh;
+      overflow-x: hidden;
       background-image:
         radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
         radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
@@ -518,6 +520,44 @@
       color: var(--text-muted);
       margin-bottom: 12px;
     }
+
+    /* ---- Mobile ---- */
+    @media (max-width: 600px) {
+      .hero { padding: 28px 16px 36px; }
+      .hero h1 { font-size: 1.6rem; }
+      .hero p { font-size: 0.95rem; padding: 0 8px; }
+      .audit-form {
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 100%;
+        padding: 0 8px;
+      }
+      .audit-form input { min-width: 0; width: 100%; }
+      .btn-primary { width: 100%; }
+      .audit-intro {
+        margin: 24px 16px 0;
+        padding: 16px 0 0;
+        max-width: 100%;
+      }
+      .audit-intro h2 { font-size: 0.95rem; }
+      .audit-intro p { font-size: 0.85rem; }
+      .container { padding: 16px 16px 40px; }
+      .score-hero { padding: 24px 16px; }
+      .breakdown { grid-template-columns: 1fr; }
+      .card { padding: 18px 16px; }
+      .details-card { padding: 18px 16px; }
+      .details-card .details-grid { grid-template-columns: 1fr; }
+      .loading-box { margin: 0 16px; padding: 28px 20px; max-width: none; }
+      .error-msg { margin: 0 16px; max-width: none; }
+      .partial-notice, .spa-notice { margin-left: 16px; margin-right: 16px; }
+      .audit-footer { margin-top: 32px; padding: 20px 16px 28px; }
+      .audit-footer .hero-links {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -525,7 +565,7 @@
     <h1>SEO Website Audit</h1>
     <p>Get a free, instant analysis of your page: structure, technical SEO, and content signals. Works with standard pages and article/blog URLs.</p>
     <form class="audit-form" id="form" onsubmit="return runAudit(event)">
-      <input type="url" id="url" placeholder="https://example.com or https://www.cult.fit/play" required>
+      <input type="text" id="url" placeholder="example.com or https://example.com" required autocomplete="url">
       <button type="submit" class="btn-primary" id="submitBtn">Analyze</button>
     </form>
     <section class="audit-intro" aria-labelledby="how-heading">
@@ -715,14 +755,22 @@
       return html;
     }
 
+    function normalizeUrl(value) {
+      var s = (value || '').trim();
+      if (!s) return '';
+      if (/^https?:\/\//i.test(s)) return s;
+      return 'https://' + s;
+    }
+
     function runAudit(e) {
       if (e && e.preventDefault) e.preventDefault();
       var urlInput = document.getElementById('url');
       var submitBtn = document.getElementById('submitBtn');
       var resultsEl = document.getElementById('results');
       if (!resultsEl || !urlInput) return false;
-      var url = (urlInput.value || '').trim();
+      var url = normalizeUrl(urlInput.value);
       if (!url) return false;
+      urlInput.value = url;
 
       submitBtn.disabled = true;
       resultsEl.innerHTML = renderLoading(0);
