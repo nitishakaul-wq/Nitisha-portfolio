@@ -1,321 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <title>BrightSmile Dental Clinic | Demo Website</title>
+  <meta name="description" content="Professional dental clinic website demo. Modern family dental care, teeth cleaning, cosmetic dentistry, and dental implants.">
 
-<title>BrightSmile Dental Clinic | Demo Website</title>
-<meta name="description" content="Professional dental clinic website demo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-2: #f1f5f9;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --accent: #0d9488;
+      --accent-hover: #0f766e;
+      --accent-soft: rgba(13, 148, 136, 0.12);
+      --border: #e2e8f0;
+      --radius: 14px;
+      --radius-lg: 20px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.1);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
 
-<style>
+    /* Demo watermark */
+    body::after {
+      content: "DEMO";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-12deg);
+      font-size: clamp(60px, 15vw, 120px);
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.035);
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: 0.05em;
+    }
 
-body{
-font-family:'Poppins',sans-serif;
-margin:0;
-background:#f4f7fb;
-color:#1e293b;
-line-height:1.6;
-}
+    /* Nav */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px max(24px, env(safe-area-inset-left)) 16px max(24px, env(safe-area-inset-right));
+      background: var(--surface);
+      box-shadow: 0 1px 0 var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
 
-/* DEMO WATERMARK */
+    nav strong {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
 
-body::after{
-content:"DEMO WEBSITE";
-position:fixed;
-top:40%;
-left:8%;
-font-size:80px;
-color:rgba(0,0,0,0.05);
-transform:rotate(-25deg);
-pointer-events:none;
-font-weight:700;
-}
+    nav div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 8px;
+    }
 
-/* NAV */
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 10px 16px;
+      border-radius: 10px;
+      transition: color 0.2s, background 0.2s;
+    }
+    nav a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
 
-nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 40px;
-background:white;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
+    /* Hero */
+    .hero {
+      min-height: 420px;
+      background-image: url("https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      position: relative;
+      z-index: 1;
+      padding: 80px 24px 100px;
+    }
 
-nav a{
-text-decoration:none;
-color:#334155;
-margin-left:18px;
-}
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
+      z-index: 0;
+    }
 
-/* HERO */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+    }
 
-.hero{
-height:420px;
-background-image:url("https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=1600&q=80");
-background-size:cover;
-background-position:center;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-position:relative;
-}
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      font-weight: 400;
+      margin: 0 0 12px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    }
 
-.hero::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(0,0,0,0.45);
-}
+    .hero .hero-tagline {
+      font-size: 1.15rem;
+      opacity: 0.95;
+      margin: 0 0 24px;
+      font-weight: 500;
+    }
 
-.hero-content{
-position:relative;
-z-index:2;
-}
+    .btn {
+      background: var(--accent);
+      color: white;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.25s var(--ease), transform 0.2s, box-shadow 0.25s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+    }
+    .btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(13, 148, 136, 0.4);
+    }
 
-.hero h1{
-font-size:42px;
-margin-bottom:10px;
-}
+    /* Sections */
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      position: relative;
+      z-index: 1;
+    }
 
-.btn{
-background:#2563eb;
-color:white;
-padding:13px 28px;
-border-radius:8px;
-text-decoration:none;
-display:inline-block;
-margin-top:16px;
-font-weight:600;
-}
+    h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.85rem, 4vw, 2.35rem);
+      font-weight: 400;
+      text-align: center;
+      margin: 0 0 48px;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
 
-/* SECTION */
+    /* Services */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
 
-section{
-max-width:1100px;
-margin:auto;
-padding:70px 20px;
-}
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+      border: 1px solid var(--border);
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+    }
 
-h2{
-text-align:center;
-margin-bottom:40px;
-}
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s var(--ease);
+    }
+    .card:hover img {
+      transform: scale(1.05);
+    }
 
-/* SERVICES */
+    .card-content {
+      padding: 24px;
+    }
 
-.services{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:24px;
-}
+    .card strong {
+      font-size: 1.15rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
 
-.card{
-background:white;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
+    .card-content p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
 
-.card img{
-width:100%;
-height:200px;
-object-fit:cover;
-}
+    /* Doctor */
+    .doctor {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 48px;
+      align-items: center;
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
 
-.card-content{
-padding:20px;
-}
+    .doctor img {
+      width: 100%;
+      border-radius: var(--radius);
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
 
-.card strong{
-font-size:18px;
-display:block;
-margin-bottom:6px;
-}
+    .doctor h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--text);
+    }
 
-/* DOCTOR */
+    .doctor p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
 
-.doctor{
-display:grid;
-grid-template-columns:280px 1fr;
-gap:40px;
-align-items:center;
-}
+    /* Reviews */
+    .reviews {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
 
-.doctor img{
-width:100%;
-border-radius:12px;
-}
+    .review {
+      background: var(--surface);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--accent);
+      transition: box-shadow 0.25s, transform 0.25s var(--ease);
+    }
+    .review:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
 
-/* REVIEWS */
+    .review p {
+      margin: 0 0 16px;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.65;
+      font-style: italic;
+    }
 
-.reviews{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:20px;
-}
+    .review strong {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
 
-.review{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
-}
+    /* Contact */
+    form {
+      max-width: 440px;
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+      background: var(--surface);
+      padding: 36px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
 
-/* CONTACT */
+    input, textarea {
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input::placeholder, textarea::placeholder {
+      color: var(--text-muted);
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
 
-form{
-max-width:420px;
-margin:auto;
-display:grid;
-gap:12px;
-}
+    button[type="submit"] {
+      padding: 14px 28px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.25s var(--ease), transform 0.2s, box-shadow 0.25s;
+      margin-top: 8px;
+      box-shadow: 0 4px 20px rgba(13, 148, 136, 0.35);
+    }
+    button[type="submit"]:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(13, 148, 136, 0.4);
+    }
 
-input,textarea{
-padding:11px;
-border-radius:6px;
-border:1px solid #cbd5f5;
-}
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      background: var(--surface-2);
+      border-top: 1px solid var(--border);
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
 
-button{
-padding:13px;
-border:none;
-background:#2563eb;
-color:white;
-border-radius:6px;
-font-weight:600;
-cursor:pointer;
-}
+    footer p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
 
-footer{
-text-align:center;
-padding:30px;
-background:#f1f5f9;
-}
+    /* Mobile */
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 14px 16px;
+      }
+      nav div {
+        justify-content: center;
+      }
+      .hero {
+        min-height: 360px;
+        padding: 60px 20px 80px;
+      }
+      section {
+        padding: 56px 20px;
+      }
+      h2 { margin-bottom: 32px; }
+      .doctor {
+        grid-template-columns: 1fr;
+        padding: 28px 24px;
+        gap: 28px;
+      }
+      .doctor img {
+        max-width: 240px;
+        margin: 0 auto;
+      }
+      form {
+        padding: 24px 20px;
+        margin: 0;
+      }
+    }
 
-</style>
+    @media (max-width: 480px) {
+      .hero { padding: 48px 16px 64px; }
+      section { padding: 48px 16px; }
+      .services { grid-template-columns: 1fr; }
+      .reviews { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
 
-<nav>
-<strong>BrightSmile Dental</strong>
-<div>
-<a href="#">Home</a>
-<a href="#services">Services</a>
-<a href="#doctor">Dentist</a>
-<a href="#contact">Contact</a>
-</div>
-</nav>
+  <nav role="navigation" aria-label="Main navigation">
+    <strong>BrightSmile Dental</strong>
+    <div>
+      <a href="#">Home</a>
+      <a href="#services">Services</a>
+      <a href="#doctor">Dentist</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
-<div class="hero">
-<div class="hero-content">
-<h1>BrightSmile Dental Clinic</h1>
-<p>Modern Family Dental Care</p>
-<a class="btn" href="#contact">Book Appointment</a>
-</div>
-</div>
+  <div class="hero">
+    <div class="hero-content">
+      <h1>BrightSmile Dental Clinic</h1>
+      <p class="hero-tagline">Modern Family Dental Care</p>
+      <a class="btn" href="#contact">Book Appointment</a>
+    </div>
+  </div>
 
-<section id="services">
+  <main>
+    <section id="services" aria-labelledby="services-heading">
+      <h2 id="services-heading">Our Dental Services</h2>
+      <div class="services">
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=900&q=80" alt="Dental cleaning">
+          <div class="card-content">
+            <strong>Teeth Cleaning</strong>
+            <p>Professional cleaning and preventive dental care.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=80" alt="Cosmetic dentistry">
+          <div class="card-content">
+            <strong>Cosmetic Dentistry</strong>
+            <p>Whitening and smile design treatments.</p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=80" alt="Dental clinic room">
+          <div class="card-content">
+            <strong>Dental Implants</strong>
+            <p>Permanent solutions for missing teeth.</p>
+          </div>
+        </article>
+      </div>
+    </section>
 
-<h2>Our Dental Services</h2>
+    <section id="doctor" aria-labelledby="doctor-heading">
+      <h2 id="doctor-heading">Meet Our Dentist</h2>
+      <div class="doctor">
+        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80" alt="Dr Sarah Mitchell, dentist">
+        <div>
+          <h3>Dr Sarah Mitchell</h3>
+          <p>Experienced family dentist providing comfortable and modern dental treatments.</p>
+        </div>
+      </div>
+    </section>
 
-<div class="services">
+    <section aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading">Patient Reviews</h2>
+      <div class="reviews">
+        <blockquote class="review">
+          <p>Friendly staff and amazing service. Highly recommend!</p>
+          <strong>— Emily R.</strong>
+        </blockquote>
+        <blockquote class="review">
+          <p>The dentist explained everything clearly and the treatment was painless.</p>
+          <strong>— Daniel K.</strong>
+        </blockquote>
+        <blockquote class="review">
+          <p>Very clean clinic and professional team.</p>
+          <strong>— Mark T.</strong>
+        </blockquote>
+      </div>
+    </section>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=900&q=80" alt="Dental cleaning">
-<div class="card-content">
-<strong>Teeth Cleaning</strong>
-<p>Professional cleaning and preventive dental care.</p>
-</div>
-</div>
+    <section id="contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Book an Appointment</h2>
+      <form onsubmit="alert('Demo form — does not submit data'); return false;" aria-label="Appointment request form">
+        <input type="text" placeholder="Your Name" aria-label="Your name">
+        <input type="tel" placeholder="Phone Number" aria-label="Phone number">
+        <input type="text" placeholder="Preferred Date" aria-label="Preferred date">
+        <textarea placeholder="Message" aria-label="Message"></textarea>
+        <button type="submit">Request Appointment</button>
+      </form>
+    </section>
+  </main>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1588776814546-daab30f310ce?auto=format&fit=crop&w=900&q=80" alt="Cosmetic dentistry">
-<div class="card-content">
-<strong>Cosmetic Dentistry</strong>
-<p>Whitening and smile design treatments.</p>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=900&q=80" alt="Dental clinic room">
-<div class="card-content">
-<strong>Dental Implants</strong>
-<p>Permanent solutions for missing teeth.</p>
-</div>
-</div>
-
-</div>
-
-</section>
-
-<section id="doctor">
-
-<h2>Meet Our Dentist</h2>
-
-<div class="doctor">
-
-<img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80">
-
-<div>
-<h3>Dr Sarah Mitchell</h3>
-<p>Experienced family dentist providing comfortable and modern dental treatments.</p>
-</div>
-
-</div>
-
-</section>
-
-<section>
-
-<h2>Patient Reviews</h2>
-
-<div class="reviews">
-
-<div class="review">
-<p>Friendly staff and amazing service. Highly recommend!</p>
-<strong>— Emily R.</strong>
-</div>
-
-<div class="review">
-<p>The dentist explained everything clearly and the treatment was painless.</p>
-<strong>— Daniel K.</strong>
-</div>
-
-<div class="review">
-<p>Very clean clinic and professional team.</p>
-<strong>— Mark T.</strong>
-</div>
-
-</div>
-
-</section>
-
-<section id="contact">
-
-<h2>Book an Appointment</h2>
-
-<form onsubmit="alert('Demo form — does not submit data'); return false;">
-<input placeholder="Your Name">
-<input placeholder="Phone Number">
-<input placeholder="Preferred Date">
-<textarea placeholder="Message"></textarea>
-<button>Request Appointment</button>
-</form>
-
-</section>
-
-<footer>
-<p>Demo dental clinic website created for design showcase purposes.</p>
-</footer>
+  <footer>
+    <p>Demo dental clinic website created for design showcase purposes.</p>
+  </footer>
 
 </body>
 </html>
