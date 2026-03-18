@@ -384,6 +384,62 @@
     .details-grid dd.missing { color: var(--danger); }
     .details-grid dd .text-muted { color: var(--text-muted); }
 
+    /* GEO cross-CTA — after SEO results, gentle nudge */
+    .geo-next-cta {
+      margin-top: var(--space-lg);
+      padding: var(--space-lg);
+      background: linear-gradient(145deg, rgba(34, 211, 238, 0.06) 0%, var(--surface) 55%);
+      border: 1px solid rgba(34, 211, 238, 0.22);
+      border-radius: var(--radius);
+    }
+    .geo-next-cta-kicker {
+      margin: 0 0 8px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--pop);
+    }
+    .geo-next-cta-copy {
+      margin: 0 0 var(--space-md);
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      max-width: 52rem;
+    }
+    .geo-next-cta-copy strong { color: var(--text); }
+    .geo-next-cta-copy code {
+      font-size: 0.8125em;
+      padding: 1px 6px;
+      background: var(--surface-2);
+      border-radius: 4px;
+      color: var(--accent-2);
+    }
+    .geo-next-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 22px;
+      background: transparent;
+      color: var(--pop);
+      border: 2px solid rgba(34, 211, 238, 0.45);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9375rem;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .geo-next-cta-btn:hover {
+      background: rgba(34, 211, 238, 0.1);
+      border-color: var(--pop);
+      color: var(--text);
+    }
+    .geo-next-cta-btn:focus-visible {
+      outline: 2px solid var(--pop);
+      outline-offset: 3px;
+    }
+
     .loading-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -519,6 +575,16 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+      }
+      .geo-next-cta {
+        margin-top: var(--space-md);
+        padding: var(--space-md);
+      }
+      .geo-next-cta-copy { font-size: 0.875rem; }
+      .geo-next-cta-btn {
+        width: 100%;
+        text-align: center;
+        font-size: 0.875rem;
       }
       .details-grid {
         grid-template-columns: 1fr;
@@ -755,6 +821,13 @@
       html += '</dl>';
       html += '</div>';
       html += '</div>';
+
+      html += '<aside class="geo-next-cta" aria-label="Free GEO audit tool">';
+      html += '<p class="geo-next-cta-kicker">Same URL, wider picture</p>';
+      html += '<p class="geo-next-cta-copy">You&rsquo;ve seen classic SEO signals. <strong>AI-powered search</strong> (ChatGPT, Perplexity, Google AI Overviews) also cares about <strong>AI crawler rules</strong> in robots.txt, structured data, and files like <code>llms.txt</code>. Our free <strong>GEO audit</strong> checks that angle—optional, same site, no account.</p>';
+      html += '<a class="geo-next-cta-btn" href="https://easygoaitool.online/tools/geo-audit.html">Run free GEO audit on easygoaitool.online</a>';
+      html += '</aside>';
+
       return html;
     }
 
