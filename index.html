@@ -135,11 +135,42 @@
       z-index: 50;
     }
 
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 4px 14px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
     .logo {
       font-weight: 700;
       font-size: 1.2rem;
       letter-spacing: -0.03em;
       color: var(--text);
+      line-height: 1.2;
+    }
+
+    .nav-inline-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 10px 14px;
+      margin: 0;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      transition: color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-inline-link:hover {
+      color: var(--accent-2);
+      background: var(--accent-glow-soft);
+    }
+    .nav-inline-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     .nav-links {
@@ -307,23 +338,63 @@
     .trust span { display: inline-flex; align-items: center; gap: 8px; }
     .trust span::before { content: '✓'; color: #22c55e; font-weight: 700; font-size: 1rem; }
 
+    .mvp-tools-ribbon {
+      max-width: 36rem;
+      margin: 28px auto 0;
+      padding: 14px 22px;
+      background: var(--surface);
+      border: 1px solid rgba(34, 211, 238, 0.22);
+      border-radius: var(--radius-lg);
+      font-size: 0.9375rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      text-align: center;
+      animation: fadeUp 0.7s var(--ease) 0.58s forwards;
+      opacity: 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    .mvp-tools-ribbon strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .mvp-tools-ribbon a {
+      color: var(--pop);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(34, 211, 238, 0.4);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .mvp-tools-ribbon a:hover {
+      color: var(--accent-2);
+      border-color: rgba(251, 191, 36, 0.55);
+    }
+    .mvp-tools-ribbon a:focus-visible {
+      outline: 2px solid var(--pop);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* ---- CREDIBILITY ---- */
-    .credibility-section {
-      padding-top: 32px;
+    section.credibility-section {
+      max-width: 1180px;
+      padding-top: 28px;
       padding-bottom: 32px;
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
     }
 
     .credibility-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      padding: 28px 32px;
-      max-width: 680px;
+      padding: 26px 30px 30px 34px;
+      width: 100%;
+      max-width: none;
       margin: 0 auto;
       position: relative;
       overflow: hidden;
@@ -344,8 +415,9 @@
       font-size: 1.05rem;
       line-height: 1.65;
       color: var(--text);
-      margin: 0 0 20px;
+      margin: 0 0 18px;
       padding-left: 4px;
+      max-width: none;
     }
 
     .credibility-intro .hi {
@@ -359,7 +431,14 @@
       margin: 0;
       display: grid;
       gap: 10px 20px;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    @media (min-width: 900px) {
+      .credibility-bullets {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px 24px;
+      }
     }
 
     .credibility-bullets li {
@@ -736,7 +815,7 @@
 
     .demo-mock {
       background: var(--surface);
-      border: 1px solid var(--border-strong);
+      border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow), 0 0 0 1px rgba(245, 158, 11, 0.08);
@@ -746,7 +825,6 @@
     .demo-mock:hover {
       box-shadow: var(--shadow-lg), 0 0 24px var(--accent-glow-soft);
     }
-    .demo-mock { border-color: var(--border); }
 
     .demo-mock-browser {
       background: var(--surface-2);
@@ -930,6 +1008,19 @@
     footer a:hover { color: var(--accent-2); }
     footer a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+    .footer-mvp {
+      margin: 18px auto 0;
+      max-width: 28rem;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+    .footer-mvp a {
+      font-weight: 600;
+      color: var(--pop);
+    }
+    .footer-mvp a:hover { color: var(--accent-2); }
+
     .footer-quip {
       font-style: italic;
       margin-top: 16px;
@@ -944,14 +1035,31 @@
         gap: 12px;
         justify-content: center;
       }
+      .nav-brand {
+        width: 100%;
+        justify-content: center;
+      }
       .logo { font-size: 1.1rem; }
-      .nav-links { justify-content: center; }
+      .nav-inline-link {
+        padding: 12px 16px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.9rem;
+      }
+      .nav-links { justify-content: center; width: 100%; }
       .nav-links a {
         padding: 12px 16px;
         font-size: 0.9rem;
         min-height: 44px;
         display: inline-flex;
         align-items: center;
+      }
+      .mvp-tools-ribbon {
+        margin-left: max(16px, env(safe-area-inset-left));
+        margin-right: max(16px, env(safe-area-inset-right));
+        padding: 12px 16px;
+        font-size: 0.875rem;
       }
       header {
         padding: 40px 16px 48px;
@@ -977,8 +1085,13 @@
       .demo-grid { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; }
       .funnel-cta { padding: 20px 16px; margin-bottom: 32px; }
-      .credibility-section { padding: 24px 16px; }
-      .credibility-card { padding: 24px 18px; max-width: 100%; }
+      section.credibility-section {
+        padding-top: 20px;
+        padding-bottom: 24px;
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      .credibility-card { padding: 24px 18px; }
       .contact-wrap { padding: 0 4px; gap: 28px; }
       .contact-form-wrap form { max-width: 100%; }
       .demo-panel { min-width: 0; }
@@ -997,7 +1110,11 @@
     @media (max-width: 480px) {
       nav { padding: 12px max(12px, env(safe-area-inset-left)); }
       header { padding: 32px 12px 40px; }
-      section { padding: 32px 12px; }
+      section {
+        padding: 32px 12px;
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+      }
       .credibility-card { padding: 20px 14px; }
       .contact-wrap { gap: 24px; }
       .demo-mock-preview .mock-hero-title { font-size: 1.2rem; }
@@ -1012,7 +1129,10 @@
   <div class="bg-wrap" aria-hidden="true"></div>
 
   <nav role="navigation" aria-label="Main navigation">
-    <div class="logo">EasyGoAI</div>
+    <div class="nav-brand">
+      <div class="logo">EasyGoAI</div>
+      <a href="https://easygoaitool.online/" class="nav-inline-link">Try MVP tools</a>
+    </div>
     <div class="nav-links">
       <a href="/">Home</a>
       <a href="#services">Services</a>
@@ -1037,7 +1157,7 @@
       <div class="btn-row">
         <a class="btn btn-primary" href="#contact">Request a Website</a>
         <a class="btn btn-secondary" href="/audit-tool/">Free Website Audit</a>
-        <a class="btn btn-secondary" href="https://www.linkedin.com/in/nitisha-kaul-598729102/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/nitisha-kaul-598729102/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
 
       <div class="trust">
@@ -1045,6 +1165,12 @@
         <span>Fast delivery (2–4 days)</span>
         <span>Designed for small businesses</span>
       </div>
+
+      <aside class="mvp-tools-ribbon" aria-label="EasyGo AI free tools hub">
+        <strong>Also free on EasyGo AI:</strong>
+        EMI calculator, ATS resume helper, QR &amp; password utilities — no signup.
+        <a href="https://easygoaitool.online/">Try our MVP tools</a>
+      </aside>
     </header>
 
     <section id="credibility" class="credibility-section" aria-labelledby="credibility-heading">
@@ -1108,8 +1234,8 @@
     </section>
 
     <section aria-labelledby="funnel-heading">
-      <div class="funnel-cta" id="funnel-heading">
-        <h3>Not sure where to start?</h3>
+      <div class="funnel-cta">
+        <h3 id="funnel-heading">Not sure where to start?</h3>
         <p>Get a <strong>free SEO audit</strong> of your site. See the issues → then request a website that fixes them.</p>
         <a class="btn btn-primary" href="/audit-tool/">Get Free SEO Audit</a>
         <a class="btn btn-secondary" href="#contact">Request a Website</a>
@@ -1236,7 +1362,11 @@
     <p>© 2026 EasyGoAI</p>
     <p>Demo sites are fictional examples. The quality is real.</p>
     <p>
-      <a href="https://www.linkedin.com/in/nitisha-kaul-598729102/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/nitisha-kaul-598729102/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </p>
+    <p class="footer-mvp">
+      <a href="https://easygoaitool.online/">Try our MVP tools</a>
+      — free calculators &amp; AI utilities at easygoaitool.online
     </p>
     <p class="footer-quip">☕ Built with care (and a lot of caffeine). No templates, no agencies. — human, not a bot.</p>
   </footer>
@@ -1302,14 +1432,20 @@
     }
 
     function updateMockFromAI(data) {
+      if (!data) {
+        updateMockFromFallback();
+        return;
+      }
       var business = (businessInput.value || '').trim();
       if (mockUrlEl) mockUrlEl.textContent = business ? slugify(business) + '.com' : 'yourbusiness.com';
       mockNameEl.textContent = business || 'Your Business';
       if (data.tagline) mockTaglineEl.textContent = data.tagline;
-      if (data.sections && data.sections.length > 0) {
-        mockSectionsEl.textContent = data.sections.join(' · ') + ' — tailored from your description.';
-      } else {
-        mockSectionsEl.textContent = defaultSectionsText;
+      if (mockSectionsEl) {
+        if (data.sections && data.sections.length > 0) {
+          mockSectionsEl.textContent = data.sections.join(' · ') + ' — tailored from your description.';
+        } else {
+          mockSectionsEl.textContent = defaultSectionsText;
+        }
       }
     }
 
@@ -1349,9 +1485,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ businessName: business, message: message })
         })
-          .then(function(r) { return r.json(); })
+          .then(function(r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.json().catch(function() { throw new Error('Invalid JSON'); });
+          })
           .then(function(data) {
-            if (data.tagline || (data.sections && data.sections.length > 0)) {
+            if (data && (data.tagline || (data.sections && data.sections.length > 0))) {
               updateMockFromAI(data);
             } else {
               updateMockFromFallback();
