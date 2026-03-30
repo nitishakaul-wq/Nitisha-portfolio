@@ -199,6 +199,53 @@
       outline-offset: 2px;
     }
 
+    /* Hamburger: desktop hidden */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      margin: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-toggle:hover {
+      background: var(--surface-3);
+      border-color: var(--accent);
+    }
+    .nav-toggle:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .nav-toggle-bar {
+      display: block;
+      width: 20px;
+      height: 2px;
+      border-radius: 1px;
+      background: var(--text);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-mvp-full { display: inline; }
+    .nav-mvp-short { display: none; }
+
     /* ---- HERO ---- */
     header {
       text-align: center;
@@ -1029,52 +1076,106 @@
 
     /* ---- MOBILE ---- */
     @media (max-width: 768px) {
-      nav {
-        padding: 14px max(16px, env(safe-area-inset-left)) 14px max(16px, env(safe-area-inset-right));
+      nav.site-nav {
+        padding: 12px max(16px, env(safe-area-inset-left)) 12px max(16px, env(safe-area-inset-right));
         flex-wrap: wrap;
-        gap: 12px;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0;
+        row-gap: 0;
+      }
+      .nav-toggle {
+        display: inline-flex;
       }
       .nav-brand {
-        width: 100%;
-        justify-content: center;
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        justify-content: flex-start;
+        gap: 6px 10px;
       }
-      .logo { font-size: 1.1rem; }
+      .logo { font-size: 1.05rem; }
       .nav-inline-link {
-        padding: 12px 16px;
-        min-height: 44px;
+        padding: 8px 10px;
+        min-height: 40px;
         display: inline-flex;
         align-items: center;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
-      .nav-links { justify-content: center; width: 100%; }
+      .nav-links {
+        display: none;
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--border);
+        gap: 2px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+      }
+      .nav-links.is-open {
+        display: flex;
+      }
       .nav-links a {
-        padding: 12px 16px;
-        font-size: 0.9rem;
-        min-height: 44px;
-        display: inline-flex;
+        padding: 14px 14px;
+        font-size: 0.95rem;
+        min-height: 48px;
+        display: flex;
         align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        border-radius: var(--radius-sm);
       }
       .mvp-tools-ribbon {
         margin-left: max(16px, env(safe-area-inset-left));
         margin-right: max(16px, env(safe-area-inset-right));
         padding: 12px 16px;
         font-size: 0.875rem;
+        text-align: left;
       }
       header {
-        padding: 40px 16px 48px;
+        text-align: left;
+        padding: 28px 16px 40px;
         padding-left: max(16px, env(safe-area-inset-left));
         padding-right: max(16px, env(safe-area-inset-right));
-        padding-bottom: max(48px, env(safe-area-inset-bottom));
+        padding-bottom: max(40px, env(safe-area-inset-bottom));
       }
-      .btn-row { flex-direction: column; gap: 10px; }
+      .hero-badge {
+        border-color: rgba(245, 158, 11, 0.22);
+        background: rgba(245, 158, 11, 0.1);
+        margin-left: 0;
+        margin-right: auto;
+      }
+      .hero-vibe { text-align: left; }
+      header h1 { text-align: left; }
+      .hero-value { text-align: left; }
+      .tagline {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: none;
+        text-align: left;
+      }
+      .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        justify-content: flex-start;
+      }
       .btn {
         width: 100%;
-        max-width: 280px;
+        max-width: none;
         justify-content: center;
-        min-height: 44px;
+        min-height: 48px;
       }
-      .trust { flex-direction: column; gap: 10px; }
+      .trust {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        justify-content: flex-start;
+      }
+      .trust span { justify-content: flex-start; }
       section {
         padding: 40px 16px;
         padding-left: max(16px, env(safe-area-inset-left));
@@ -1108,8 +1209,10 @@
       }
     }
     @media (max-width: 480px) {
-      nav { padding: 12px max(12px, env(safe-area-inset-left)); }
-      header { padding: 32px 12px 40px; }
+      nav.site-nav { padding: 10px max(12px, env(safe-area-inset-left)) 10px max(12px, env(safe-area-inset-right)); }
+      .nav-mvp-full { display: none; }
+      .nav-mvp-short { display: inline; }
+      header { padding: 24px 12px 36px; }
       section {
         padding: 32px 12px;
         padding-left: max(12px, env(safe-area-inset-left));
@@ -1128,12 +1231,17 @@
 
   <div class="bg-wrap" aria-hidden="true"></div>
 
-  <nav role="navigation" aria-label="Main navigation">
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
     <div class="nav-brand">
       <div class="logo">EasyGoAI</div>
-      <a href="https://easygoaitool.online/" class="nav-inline-link">Try MVP tools</a>
+      <a href="https://easygoaitool.online/" class="nav-inline-link"><span class="nav-mvp-full">Try MVP tools</span><span class="nav-mvp-short">MVP tools</span></a>
     </div>
-    <div class="nav-links">
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav-links" aria-label="Open menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <div id="primary-nav-links" class="nav-links">
       <a href="/">Home</a>
       <a href="#services">Services</a>
       <a href="/audit-tool/">Free SEO Audit</a>
@@ -1506,6 +1614,41 @@
     messageInput.addEventListener('input', scheduleUpdate);
     messageInput.addEventListener('change', updateMock);
     updateMock();
+  })();
+  </script>
+
+  <script>
+  (function () {
+    var nav = document.querySelector('nav.site-nav');
+    if (!nav) return;
+    var btn = document.getElementById('nav-toggle');
+    var panel = document.getElementById('primary-nav-links');
+    if (!btn || !panel) return;
+
+    function setOpen(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      panel.classList.toggle('is-open', open);
+    }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setOpen(!panel.classList.contains('is-open'));
+    });
+
+    panel.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { setOpen(false); });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') setOpen(false);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (panel.classList.contains('is-open') && !nav.contains(e.target)) {
+        setOpen(false);
+      }
+    });
   })();
   </script>
 
